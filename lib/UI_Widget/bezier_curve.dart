@@ -9,14 +9,19 @@ Widget clipWidget(double height){
   return ClipPath(
     clipper:BottomClipper(),
     child: Container(
-      color:mainColor,
+      decoration: BoxDecoration(
+          gradient:LinearGradient(
+              colors: [
+                mainColor,
+                mainColor.withAlpha(200)
+
+              ]
+          )
+      ),
       height: height,
     ),
   );
 }
-
-
-
 
 
 class BottomClipper extends CustomClipper<Path>{

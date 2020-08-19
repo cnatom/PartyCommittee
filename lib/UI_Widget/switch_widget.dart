@@ -16,23 +16,3 @@ Widget switchWidget({ValueChanged<bool> onChanged,GestureTapCallback onTap,Text 
     onTap: onTap
   );
 }
-
-//Widget switchWidget({ValueChanged<bool> onChanged}){
-//  return ListTile(
-//    title: Text("教职工登录"),
-//    trailing: CupertinoSwitch(
-//      activeColor: mainColor,
-//      value: _light,
-//      onChanged: (bool value){
-//        setState(() {
-//          _light = value;
-//        });
-//      },
-//    ),
-//    onTap: (){
-//      setState(() {
-//        _light = !_light;
-//      });
-//    },
-//  );
-//}

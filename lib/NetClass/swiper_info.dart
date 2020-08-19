@@ -1,3 +1,4 @@
+//轮播图实体类
 class SwiperInfo {
   int code;
   List<Data> data;
@@ -30,13 +31,15 @@ class SwiperInfo {
 class Data {
   String title;
   String imgUrl;
+  String imgCompressedUrl;
   String targetUrl;
 
-  Data({this.title, this.imgUrl, this.targetUrl});
+  Data({this.title, this.imgUrl, this.imgCompressedUrl, this.targetUrl});
 
   Data.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     imgUrl = json['img_url'];
+    imgCompressedUrl = json['img_compressed_url'];
     targetUrl = json['target_url'];
   }
 
@@ -44,6 +47,7 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this.title;
     data['img_url'] = this.imgUrl;
+    data['img_compressed_url'] = this.imgCompressedUrl;
     data['target_url'] = this.targetUrl;
     return data;
   }
