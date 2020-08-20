@@ -19,7 +19,7 @@ void main(){
   runApp(
       MaterialApp(
         localizationsDelegates: [
-          PickerLocalizationsDelegate.delegate, // 如果要使用本地化，请添加此行，则可以显示中文按钮
+          PickerLocalizationsDelegate.delegate,
         ],
         debugShowCheckedModeBanner: false,
         home: StartPage(),
