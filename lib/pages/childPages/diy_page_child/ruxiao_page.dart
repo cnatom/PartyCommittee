@@ -13,6 +13,7 @@ import 'package:flutter_easyhub/flutter_easy_hub.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/NetClass/global.dart';
+import 'package:party_committee/NetClass/passPdf_info.dart';
 import 'package:party_committee/UI_Widget/MyUiWidgets.dart';
 import 'package:party_committee/UI_Widget/colors.dart';
 import 'package:party_committee/UI_Widget/loading.dart';
@@ -423,14 +424,36 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
         _position = 0;
       }else if(map['data']=='未审核'){
         _position = 1;
-      }else{
+      }else if(map['data']=='审核通过'){
+        _passPdfInfoGet();
         _position = 2;
       }
       setState(() {
       });
     }catch(e){
-      showToast(context,"未知错误");
-      Navigator.pop(context);
+      showToast(context,"访问失败(X_X)");
+      print(e.toString());
+    }
+  }
+  //获取审核通过的Pdf信息
+  void _passPdfInfoGet()async{
+    final token = (await SharedPreferences.getInstance()).getString('token');
+    try{
+      Response res;
+      Dio dio = Dio();
+      //配置dio信息
+      res = await dio.get(
+          "http://49.233.32.252:9090/api/backSchools/passInfoPdf",
+          options: Options(headers: {"Authorization":token})
+      );
+      debugPrint(res.toString());
+      //Json解码为Map
+      Map<String,dynamic> map = jsonDecode(res.toString());
+      Global.passPdfInfo = PassPdfInfo.fromJson(map);
+      setState(() {
+      });
+    }catch(e){
+      showToast(context,"访问失败(X_X)");
       print(e.toString());
     }
   }
@@ -798,7 +821,40 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
       );
   //第三步
   Widget firstStep3() => Container(
-        child: Text("确定"),
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              child: Column(
+                children: <Widget>[
+                  //您的申请已通过！
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                              color: shadowColor.withAlpha(10),
+                              spreadRadius: 0.1,
+                              blurRadius: 10
+                          )
+                        ]
+                    ),
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.done),
+                        SizedBox(width: 20,),
+                        Text("您的申请已通过！",style: TextStyle(fontSize: 17),)
+
+                      ],
+                    ),
+                  ),
+                  //
+                ],
+              ),
+            )
+          ],
+        ),
       );
 
   @override

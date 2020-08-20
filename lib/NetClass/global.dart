@@ -3,6 +3,7 @@ import 'package:party_committee/NetClass/changepass_info.dart';
 import 'package:party_committee/NetClass/chengji_info.dart';
 import 'package:party_committee/NetClass/login_info.dart';
 import 'package:party_committee/NetClass/news_info.dart';
+import 'package:party_committee/NetClass/passPdf_info.dart';
 import 'package:party_committee/NetClass/student_info.dart';
 import 'package:party_committee/NetClass/swiper_info.dart';
 import 'package:party_committee/NetClass/teacher_info.dart';
@@ -17,6 +18,7 @@ class Global{
   static StudentInfo checkToken = new StudentInfo(); //用于检测token是否过期
   static ChangePassInfo changePassInfo = new ChangePassInfo();//修改密码
   static ChengjiInfo chengjiInfo = new ChengjiInfo();//成绩查询结果
+  static PassPdfInfo passPdfInfo = new PassPdfInfo();
   static int admin;//判断当前用户权限 0学生 1老师 2领导
   static String name;
   static String id;
