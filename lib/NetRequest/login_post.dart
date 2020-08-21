@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../NetClass/global.dart';
 
 //获取登录json数据
-loginPost({String username, String password}) async {
+Future<bool> loginPost({String username, String password}) async {
   try {
     final prefs = await SharedPreferences.getInstance();
     Map _jsonMap = {'username': username, 'password': password};
@@ -33,9 +33,12 @@ loginPost({String username, String password}) async {
       prefs.setString('username', username);
       prefs.setString('password', password);
       Global.id = username;
+      return true;
+    }else{
+      return false;
     }
   } catch (e) {
     print('@@@@@@@@@' + e.toString());
-    throw DioErrorType.DEFAULT;
+    return false;
   }
 }

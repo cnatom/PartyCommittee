@@ -11,7 +11,7 @@ changePassPost({String token,String oldpwd,String newpwd}) async {
     Response res;
     Dio dio = Dio();
     //配置dio信息
-    res = await dio.post(
+    res = await dio.put(
         "http://49.233.32.252:9090/api/stu-info/own/password",
         data: _jsonMap,
         options: Options(

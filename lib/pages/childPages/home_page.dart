@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/NetClass/global.dart';
 import 'package:party_committee/NetRequest/news_get.dart';
+import 'package:party_committee/NetRequest/signout_post.dart';
 import 'package:party_committee/NetRequest/swiper_get.dart';
 import 'package:party_committee/NetRequest/user_info_get.dart';
 import 'package:party_committee/UI_Widget/MyUiWidgets.dart';
@@ -20,9 +21,11 @@ import 'package:party_committee/UI_Widget/loading.dart';
 import 'package:party_committee/UI_Widget/swiper.dart';
 import 'package:party_committee/main.dart';
 import 'package:party_committee/pages/childPages/diy_page_child/bangong_page.dart';
+import 'package:party_committee/pages/childPages/diy_page_child/ruxiao_page.dart';
 import 'package:party_committee/pages/childPages/diy_page_child/xiaoche_page.dart';
 import 'package:party_committee/pages/childPages/diy_page_child/xiaoli_page.dart';
 import 'package:party_committee/pages/childPages/home_page_child/news_page.dart';
+import 'package:party_committee/pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
@@ -119,13 +122,12 @@ class _HomePageState extends State<HomePage>
                 Center(child: _swiperArea(),),//轮播图
                 SizedBox(height: 20,),
                 MyTitle("常用功能"),
-                SizedBox(height: 10,),
+                SizedBox(height: 10),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    MyRecButton1("返校申请", "Ask of leave", 'images/fanxiao1.png'),
-                    SizedBox(width: deviceWidth*0.05,),
-                    MyRecButton1("销假", "Back from leave", 'images/xiaojia1.png'),
+                    MyRecButton1("入校申请", "Ask of leave", 'images/fanxiao1.png',onTap: ()=>toRuxiaoPage(context)),
+                    MyRecButton1("销假", "Back from leave", 'images/xiaojia1.png',onTap: ()=>toNullPage(context)),
                   ],
                 ),
                 SizedBox(height: 20,),

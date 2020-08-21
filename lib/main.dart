@@ -9,29 +9,32 @@ import 'package:flutter_picker/PickerLocalizationsDelegate.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/NetRequest/login_post.dart';
 import 'package:party_committee/NetRequest/signout_post.dart';
+import 'package:party_committee/pages/childPages/myself_page_child/about_page.dart';
 import 'package:party_committee/pages/login_page.dart';
 import 'package:party_committee/pages/navigator_page.dart';
 import 'package:party_committee/pages/new_navigator_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'UI_Widget/toast.dart';
-void main(){
-  runApp(
-      MaterialApp(
-        localizationsDelegates: [
-          PickerLocalizationsDelegate.delegate,
-        ],
-        debugShowCheckedModeBanner: false,
-        home: StartPage(),
-      )
-  );
+import 'animationEffect/custome_router.dart';
+
+void main() {
   if (Platform.isAndroid) {
     //设置android状态栏为透明的沉浸。
     SystemUiOverlayStyle systemUiOverlayStyle =
-    SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
+  runApp(MaterialApp(
+    localizationsDelegates: [
+      PickerLocalizationsDelegate.delegate,
+    ],
+    debugShowCheckedModeBanner: false,
+    home: StartPage(),
+  ));
 }
+
+
 
 //启动页,是进入App的第一个页面
 class StartPage extends StatefulWidget {
@@ -40,6 +43,8 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+
+
   //检测是否联网
   Future<int> isOnline() async{
     var connectivityResult = await (new Connectivity().checkConnectivity());
@@ -74,56 +79,29 @@ class _StartPageState extends State<StartPage> {
   void didChangeDependencies() {
     build(context);
     super.didChangeDependencies();
-
-    Future.delayed(Duration(milliseconds: 1000),()=>_countDown());
+    _countDown();
   }
 
   @override
   Widget build(BuildContext context) {
 //    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     //启动时获取设备大小
+    print('@build');
     deviceHeight = MediaQuery.of(context).size.height;
     deviceWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: <Widget>[
-          Positioned(
-            height: deviceHeight,
-            width: deviceWidth,
+          Positioned.fill(
             child: Image.asset(
               'images/login_background.png',
               fit: BoxFit.fill,
-            ),
-          ),
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-              child: Opacity(
-                opacity: 0.2,
-                child: Container(
-                  decoration: BoxDecoration(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-          Center(
-            child: Positioned(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 200),
-                width: deviceWidth/2.5,
-                child: Hero(
-                  tag: 'login_logo',
-                  child: Image.asset(
-                    "images/logo_v.png",
-                  ),
-                ),
-              ),
             ),
           ),
         ],
       ),
     );
   }
-
-
 }

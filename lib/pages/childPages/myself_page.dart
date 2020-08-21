@@ -15,6 +15,8 @@ import 'package:party_committee/UI_Widget/MyUiWidgets.dart';
 import 'package:party_committee/UI_Widget/bezier_curve.dart';
 import 'package:party_committee/UI_Widget/colors.dart';
 import 'package:party_committee/UI_Widget/containers.dart';
+import 'package:party_committee/UI_Widget/toast.dart';
+import 'package:party_committee/pages/childPages/myself_page_child/about_page.dart';
 import 'package:party_committee/pages/childPages/myself_page_child/changePass_page.dart';
 import 'package:party_committee/pages/childPages/myself_page_child/studentInfo_page.dart';
 import 'package:party_committee/pages/childPages/myself_page_child/teacherInfo_page.dart';
@@ -28,15 +30,14 @@ class MyselfPage extends StatefulWidget {
   _MyselfPageState createState() => _MyselfPageState();
 }
 
-class _MyselfPageState extends State<MyselfPage> with AutomaticKeepAliveClientMixin{
-
+class _MyselfPageState extends State<MyselfPage>
+    with AutomaticKeepAliveClientMixin {
   void _signOutFunc() async {
     final prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString('token');
     await signOutPost(context, _token);
     toLoginPage(context);
   }
-
 
   //确定退出
   Future<bool> _willSignOut(context) async {
@@ -65,11 +66,13 @@ class _MyselfPageState extends State<MyselfPage> with AutomaticKeepAliveClientMi
   }
 
   //提前加载个人信息用于预览名字账号
-  Future<Null> _loadingUserInfo()async {
+  Future<Null> _loadingUserInfo() async {
     if (Global.studentInfo.data == null || Global.teacherInfo.data == null) {
       final token = (await SharedPreferences.getInstance()).getString('token');
       await userInfoGet(token);
-      setState(() {});
+      setState(() {
+
+      });
     }
   }
 
@@ -98,42 +101,41 @@ class _MyselfPageState extends State<MyselfPage> with AutomaticKeepAliveClientMi
         )
       ]),
       body: RefreshIndicator(
-        onRefresh: ()=>_loadingUserInfo(),
+        onRefresh: () => _loadingUserInfo(),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: AlwaysScrollableScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               MyselfCard(
-                  imageResource: "images/test.jpg",
-                  name: Global.name==null?"加载中...":Global.name,
-                  id: Global.id==null?".......":Global.id,
+                  imageResource: "images/test.png",
+                  name: Global.name == null ? "加载中..." : Global.name,
+                  id: Global.id == null ? "......." : Global.id,
                   onTap: () => Global.admin == 0
                       ? toStudentInfoPage(context)
                       : toTeacherInfoPage(context)),
               MyTitle("设置"),
-              Container(
-                height: 600,
-                child: GridView.count(
-                  physics: NeverScrollableScrollPhysics(),
-                  //水平子Widget之间间距
-                  crossAxisSpacing: 20,
-                  //垂直子Widget之间间距
-                  mainAxisSpacing: 20,
-                  //GridView内边距
-                  padding: EdgeInsets.all(20.0),
-                  //一行的Widget数量
-                  crossAxisCount: 2,
-                  //子Widget宽高比例
-                  childAspectRatio: 1.7,
-                  //子Widget列表
-                  children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
                     MyRecButton2("修改密码", 'images/xiugai.png',
                         onTap: () => toChangePassPage(context)),
-//                  MyRecButton2("问题反馈", 'images/fankui.png',onTap: (){}),
-                    MyRecButton2("关于", 'images/guanyu.png', onTap: () {}),
+                    MyRecButton2("关于", 'images/guanyu.png',
+                        onTap: () => toAboutPage(context),
+                        onLongPress: () => showToast(
+                            context,
+                            '技术支持：\n\n'
+                            '前端：牟金腾 19级计算机\n\n'
+                            '后端：高远     18级计算机\n\n'
+                            '            魏敬杨 18级计算机',
+                            duration: 3)),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 10,
               )
             ],
           ),

@@ -32,15 +32,15 @@ Widget teacherInfoSliverAppBar(BuildContext context,
           children: <Widget>[
             Positioned.fill(
               child: Image.asset(
-                photo,
-                fit: BoxFit.fitWidth,
+                "images/stu_background.png",
+                fit: BoxFit.fill,
               ),
             ),
             Positioned.fill(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: Opacity(
-                  opacity: 0.6,
+                  opacity: 0.1,
                   child: Container(
                     decoration: BoxDecoration(color: Colors.black),
                   ),
@@ -139,7 +139,7 @@ Widget stuInfoSliverAppBar(BuildContext context,
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
               child: Opacity(
-                opacity: 0.2,
+                opacity: 0.1,
                 child: Container(
                   decoration: BoxDecoration(color: Colors.black),
                 ),

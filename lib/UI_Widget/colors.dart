@@ -20,7 +20,6 @@ final List iconButtonColor = [
 final Color pageBackgroundColor = Color.fromARGB(255, 243,245,248);
 final Color textColor = Colors.white;  //主文本色彩
 final Color transWhite = Color.fromARGB(150, 255, 255, 255);  //半透明白色
-final Color loginButtonColor = Color.fromARGB(200, 241, 101, 47); //登录按钮色彩
 final Color iconBackColor = Color.fromARGB(255, 239,239,241); //功能页图标的背景颜色
 final Color appBarColor = Color.fromARGB(255, 237,237,237);//顶部AppBar的背景颜色
 final Color unselectedColor = Color.fromARGB(255, 170,170,181);//未选中选项的颜色

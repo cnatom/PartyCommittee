@@ -51,7 +51,7 @@ class _TeacherInfoPageState extends State<TeacherInfoPage> {
                 slivers: <Widget>[
                   teacherInfoSliverAppBar(
                     context,
-                    photo: "images/test.jpg",
+                    photo: "images/test.png",
                     name: Global.teacherInfo.data.name,
                     id: Global.teacherInfo.data.id,
                   ),

@@ -49,7 +49,7 @@ class _StudentInfoPageState extends State<StudentInfoPage> {
         slivers: <Widget>[
           stuInfoSliverAppBar(
             context,
-            photo: 'images/test.jpg',
+            photo: 'images/test.png',
             name: Global.studentInfo.data.name,
             id: Global.studentInfo.data.id,
             department: Global.studentInfo.data.department,

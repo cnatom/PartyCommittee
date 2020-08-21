@@ -10,7 +10,7 @@ import 'package:toast/toast.dart';
 import '../NetClass/global.dart';
 
 //退出登录
-signOutPost(BuildContext context,String token) async {
+Future<bool> signOutPost(BuildContext context,String token) async {
   try{
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();//清除存储的token
@@ -25,13 +25,17 @@ signOutPost(BuildContext context,String token) async {
     );
     debugPrint(res.toString());
     //Json解码为Map
-//    Map<String,dynamic> map = jsonDecode(res.toString());
-
+    Map<String,dynamic> map = jsonDecode(res.toString());
     Global.studentInfo = new StudentInfo();
     Global.teacherInfo = new TeacherInfo();
+    if(map['code']!=0){
+      return false;
+    }else return true;
+
   }catch(e){
     debugPrint(e.toString());
-    toLoginPage(context);
+    print("hello");
+    return false;
   }
 
 }

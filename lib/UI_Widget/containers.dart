@@ -3,21 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:party_committee/UI_Widget/colors.dart';
 
 //用来放图标的列表
-Widget gridContainer({List<Widget> children,double rows=1.0}){
+Widget gridContainer({List<Widget> children,}){
   return Container(
-    height: 125*rows,
     child: GridView.count(
       physics: NeverScrollableScrollPhysics(),
       //水平子Widget之间间距
       crossAxisSpacing: 0,
       //垂直子Widget之间间距
-      mainAxisSpacing: 10,
+      mainAxisSpacing: 20,
+      shrinkWrap: true,
       //GridView内边距
       padding: EdgeInsets.all(20.0),
       //一行的Widget数量
       crossAxisCount: 4,
       //子Widget宽高比例
-      childAspectRatio: 0.9,
       //子Widget列表
       children: children,
     ),

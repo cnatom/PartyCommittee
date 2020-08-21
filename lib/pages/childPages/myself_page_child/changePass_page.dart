@@ -33,8 +33,8 @@ class _ChangePassPageState extends State<ChangePassPage> {
   TextEditingController newPasswordController = new TextEditingController(); //新密码控制器
   //点击确定后的行为
   _determineFunc() async{
-    if(newPasswordController.text.length < 6){
-      Toast.show("密码长度最低6位", context,backgroundRadius: 20,gravity: Toast.CENTER,duration: 2);
+    if(newPasswordController.text.length < 4){
+      Toast.show("密码最低4位", context,backgroundRadius: 20,gravity: Toast.CENTER,duration: 2);
     }else{
       final token = await (await SharedPreferences.getInstance()).getString('token');
       await changePassPost(

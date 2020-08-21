@@ -64,6 +64,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.14.12"
+  color:
+    dependency: transitive
+    description:
+      name: color
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.1"
   connectivity:
     dependency: "direct main"
     description:
@@ -181,6 +188,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.3"
+  flutter_native_splash:
+    dependency: "direct main"
+    description:
+      name: flutter_native_splash
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.9"
   flutter_page_indicator:
     dependency: "direct main"
     description:
@@ -240,6 +254,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.7"
+  google_fonts:
+    dependency: "direct main"
+    description:
+      name: google_fonts
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.0"
   http:
     dependency: transitive
     description:
@@ -303,6 +324,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.1.1"
+  package_info:
+    dependency: "direct main"
+    description:
+      name: package_info
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.1"
   path:
     dependency: transitive
     description:
@@ -553,6 +581,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.6.1"
+  yaml:
+    dependency: transitive
+    description:
+      name: yaml
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.2.1"
 sdks:
   dart: ">=2.8.0 <3.0.0"
-  flutter: ">=1.12.13+hotfix.5 <2.0.0"
+  flutter: ">=1.17.0 <2.0.0"

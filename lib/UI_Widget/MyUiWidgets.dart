@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 
@@ -122,7 +123,9 @@ Widget tipText(String content) => Text(
 Widget MyIconButton(String title, String iconResource,
         {Color backgroundColor = Colors.grey, GestureTapCallback onTap}) =>
     Container(
+      width: deviceWidth/4,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Material(
             borderRadius: BorderRadius.circular(20),
@@ -170,9 +173,10 @@ Widget MyRecButton1(String text, String subText, String resourceImageId,
       borderRadius: BorderRadius.circular(10),
       onTap: onTap,
       child: Container(
+        width: deviceWidth*0.42,
         padding: EdgeInsets.all(10),
-        width: 180,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
@@ -197,7 +201,7 @@ Widget MyRecButton1(String text, String subText, String resourceImageId,
             Container(
               alignment: AlignmentDirectional.bottomEnd,
               height: 40,
-              child: Image.asset(resourceImageId),
+              child: Image.asset(resourceImageId,height: 40,),
             ),
           ],
         ),
@@ -208,7 +212,7 @@ Widget MyRecButton1(String text, String subText, String resourceImageId,
 
 //设置页矩形按钮
 Widget MyRecButton2(String text, String resourceImageId,
-    {GestureTapCallback onTap}) {
+    {GestureTapCallback onTap,GestureLongPressCallback onLongPress}) {
   return Material(
     borderRadius: BorderRadius.circular(10),
     color: Colors.white,
@@ -217,14 +221,17 @@ Widget MyRecButton2(String text, String resourceImageId,
     child: InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Container(
-        width: deviceWidth / 2.4,
-        padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
+        padding: EdgeInsets.all(20),
+        width: deviceWidth*0.42,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
               height: 40,
+              width: 40,
               child: Image.asset(resourceImageId),
             ),
             SizedBox(
@@ -296,7 +303,7 @@ Widget MyNewsItemButton(
                     title,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    style: TextStyle(fontSize: 17, color: mainTextColor),
+                    style: TextStyle(fontSize:15,fontWeight: FontWeight.bold, color: mainTextColor),
                   ),
                 ),
                 Container(
