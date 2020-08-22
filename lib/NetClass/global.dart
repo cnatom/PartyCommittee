@@ -22,4 +22,5 @@ class Global{
   static int admin;//判断当前用户权限 0学生 1老师 2领导
   static String name;
   static String id;
+  static String curVersion;
 }

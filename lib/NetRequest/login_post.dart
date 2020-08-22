@@ -13,10 +13,10 @@ Future<bool> loginPost({String username, String password}) async {
     String uri = '';
 
     if(username.length>=8){
-      uri = "http://49.233.32.252:9090/api/logins/student";
+      uri = "https://xyt-wx.cumt.edu.cn/api/logins/student";
       Global.admin = 0;
     }else{
-      uri = "http://49.233.32.252:9090/api/logins/admin";
+      uri = "https://xyt-wx.cumt.edu.cn/api/logins/admin";
       Global.admin = 1;
     }
     Response res;

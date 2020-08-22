@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easyhub/flutter_easy_hub.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/NetClass/global.dart';
+import 'package:party_committee/NetRequest/app_upgrade.dart';
 import 'package:party_committee/NetRequest/login_post.dart';
 import 'package:party_committee/NetRequest/signout_post.dart';
 import 'package:party_committee/UI_Widget/containers.dart';
@@ -59,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
       showToast(context, "登录失败,请检查您的网络连接");
     }
   }
+
   @override
   Widget build(BuildContext context) {
 //    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
@@ -66,22 +68,19 @@ class _LoginPageState extends State<LoginPage> {
     deviceHeight = MediaQuery.of(context).size.height;
     deviceWidth = MediaQuery.of(context).size.width;
 
-
-
     //忘记密码按钮
-    Widget forgetButtonArea = FlatButton(
-      onPressed: () => Toast.show('请联系辅导员老师修改密码\n（默认密码为您的8位生日）', context,
-          gravity: Toast.CENTER, duration: 2),
-      highlightColor: Colors.transparent, //点击后的颜色为透明
-      splashColor: Colors.transparent, //点击波纹的颜色为透明
-      child: Text(
-        "忘记密码",
-        style: TextStyle(
-            color: Colors.black.withAlpha(100), //字体颜色
-            fontWeight: FontWeight.bold, //字重
-            fontSize: 13),
-      ),
-    );
+    Widget greyFlatButton(String text, {VoidCallback onPressed}) => FlatButton(
+          onPressed: onPressed,
+          highlightColor: Colors.transparent, //点击后的颜色为透明
+          splashColor: Colors.transparent, //点击波纹的颜色为透明
+          child: Text(
+            text,
+            style: TextStyle(
+                color: Colors.black.withAlpha(100), //字体颜色
+                fontWeight: FontWeight.bold, //字重
+                fontSize: 13),
+          ),
+        );
 
     //登录按钮
     Widget loginButtonArea() => FlatButton(
@@ -111,9 +110,8 @@ class _LoginPageState extends State<LoginPage> {
                 //账号输入框243,245,247
                 Container(
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 243,245,247),
-                      borderRadius: BorderRadius.circular(10)
-                  ),
+                      color: Color.fromARGB(255, 243, 245, 247),
+                      borderRadius: BorderRadius.circular(10)),
                   padding: EdgeInsets.fromLTRB(30, 5, 30, 5),
                   child: TextFormField(
                     obscureText: false, //是否是密码
@@ -131,9 +129,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 243,245,247),
-                      borderRadius: BorderRadius.circular(10)
-                  ),
+                      color: Color.fromARGB(255, 243, 245, 247),
+                      borderRadius: BorderRadius.circular(10)),
                   padding: EdgeInsets.fromLTRB(30, 5, 30, 5),
                   child: TextFormField(
                     obscureText: true,
@@ -149,15 +146,25 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 //忘记密码按钮
-                Container(height: 1,),
+                Container(
+                  height: 1,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[loginButtonArea()],
                 ),
-                Container(
-                  alignment: AlignmentDirectional.center,
-//              color: Colors.white,
-                  child: forgetButtonArea,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    greyFlatButton("忘记密码",
+                        onPressed: () => Toast.show(
+                            '请联系辅导员老师修改密码\n（默认密码为您的8位生日）', context,
+                            gravity: Toast.CENTER, duration: 2)),
+                    Container(height: 14,width: 1,color: Colors.black.withAlpha(60),),
+                    greyFlatButton("检查更新",
+                        onPressed: () => upgradeApp(context)),
+
+                  ],
                 ),
               ],
             ),
@@ -191,7 +198,6 @@ class _LoginPageState extends State<LoginPage> {
         );
 
     return Scaffold(
-
         backgroundColor: Colors.white,
         body: Stack(
           alignment: AlignmentDirectional.center,
@@ -219,9 +225,15 @@ class _LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     Expanded(
                       flex: 2,
-                      child: Image.asset(
-                        "images/xiaoyuantong.png",
-                        cacheHeight: 30,
+                      child: Center(
+                        child: Text('CUMT校园通',
+                            style: TextStyle(
+                                letterSpacing: 2,
+                                fontFamily: 'enblack',
+                                color: mainColor,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 40,
+                                fontStyle: FontStyle.italic)),
                       ),
                     ),
                     Expanded(

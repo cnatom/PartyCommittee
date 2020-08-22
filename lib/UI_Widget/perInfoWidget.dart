@@ -78,7 +78,7 @@ Widget teacherInfoSliverAppBar(BuildContext context,
                             Text(
                               name,
                               style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: 21,
                                   color: Colors.white,
                                   letterSpacing: 2),
                             ),
@@ -174,7 +174,7 @@ Widget stuInfoSliverAppBar(BuildContext context,
                           Text(
                             name,
                             style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 21,
                                 color: Colors.white,
                                 letterSpacing: 2),
                           ),

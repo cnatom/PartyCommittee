@@ -13,8 +13,8 @@ userInfoGet(
     Response res;
     Dio dio = Dio();
     String uri = Global.admin == 0
-        ? "http://49.233.32.252:9090/api/stu-info/me"
-        : "http://49.233.32.252:9090/api/core-admin/get/own";
+        ? "https://xyt-wx.cumt.edu.cn/api/stu-info/me"
+        : "https://xyt-wx.cumt.edu.cn/api/core-admin/get/own";
     //配置dio信息
     res = await dio.get(
       uri,

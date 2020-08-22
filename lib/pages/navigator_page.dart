@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:party_committee/NetRequest/app_upgrade.dart';
 import 'package:party_committee/UI_Widget/colors.dart';
 import 'package:party_committee/animationEffect/custome_router.dart';
 import 'package:party_committee/pages/childPages/diy_page.dart';
@@ -35,6 +36,8 @@ class _NavigatorPageState extends State<NavigatorPage> with AutomaticKeepAliveCl
       HomePage(),
       DiyPage(),
       MyselfPage()];
+    upgradeApp(context,auto: true);//检查更新
+
   }
 
   @override

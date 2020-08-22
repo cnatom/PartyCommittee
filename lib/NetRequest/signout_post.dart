@@ -18,7 +18,7 @@ Future<bool> signOutPost(BuildContext context,String token) async {
     Dio dio = Dio();
     //配置dio信息
     res = await dio.post(
-        "http://49.233.32.252:9090/api/logins/out",
+        "https://xyt-wx.cumt.edu.cn/api/logins/out",
       options: Options(
         headers: {'Authorization':token}
       )

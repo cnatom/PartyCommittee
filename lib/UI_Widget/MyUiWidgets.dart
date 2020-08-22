@@ -155,7 +155,7 @@ Widget MyIconButton(String title, String iconResource,
           ),
           Text(
             title,
-            style: TextStyle(fontSize: 16, color: mainTextColor),
+            style: TextStyle(fontSize: 15, color: mainTextColor),
           )
         ],
       ),
@@ -182,7 +182,7 @@ Widget MyRecButton1(String text, String subText, String resourceImageId,
             Text(
               text,
               style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 15,
                   color: mainTextColor,
                   letterSpacing: 3,
                   fontWeight: FontWeight.w600),
@@ -194,7 +194,7 @@ Widget MyRecButton1(String text, String subText, String resourceImageId,
               subText,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: 15,
+                fontSize: 14,
                 color: mainTextColor.withAlpha(200),
               ),
             ),
@@ -240,7 +240,7 @@ Widget MyRecButton2(String text, String resourceImageId,
             Text(
               text,
               style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                   color: mainTextColor,
                   letterSpacing: 3,
                   fontWeight: FontWeight.w600),
@@ -303,7 +303,7 @@ Widget MyNewsItemButton(
                     title,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    style: TextStyle(fontSize:15,fontWeight: FontWeight.bold, color: mainTextColor),
+                    style: TextStyle(fontSize:14,fontWeight: FontWeight.bold, color: mainTextColor),
                   ),
                 ),
                 Container(
@@ -387,7 +387,7 @@ Widget MyselfCard(
                     children: <Widget>[
                       Text(
                         name,
-                        style: TextStyle(fontSize: 22, color: Colors.white),
+                        style: TextStyle(fontSize: 19, color: Colors.white),
                       ),
                       SizedBox(
                         height: 10,

@@ -7,7 +7,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:package_info/package_info.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
+import 'package:party_committee/NetRequest/app_upgrade.dart';
 import 'package:party_committee/UI_Widget/MyUiWidgets.dart';
 import 'package:party_committee/UI_Widget/buttons.dart';
 import 'package:party_committee/UI_Widget/colors.dart';
@@ -71,6 +73,7 @@ class _DiyPageState extends State<DiyPage> with AutomaticKeepAliveClientMixin{
                 MyTitle("教师服务"),
                 MyIconButton("学生查询", 'images/xuesheng.png',backgroundColor: iconButtonColor[1],onTap: ()=>toXueshengPage(context)),
                 MyIconButton("党工委", 'images/danggong.png',backgroundColor: iconButtonColor[0],onTap: ()=>toNullPage(context)),
+                Container(),
               ],
             ),
           )),

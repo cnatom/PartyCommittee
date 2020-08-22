@@ -2,12 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyhub/flutter_easy_hub.dart';
-import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/UI_Widget/MyUiWidgets.dart';
-import 'package:party_committee/UI_Widget/appBar.dart';
-import 'package:party_committee/UI_Widget/bezier_curve.dart';
-import 'package:party_committee/UI_Widget/colors.dart';
-import 'package:party_committee/pages/test_myself.dart';
 import 'package:city_pickers/city_pickers.dart';
 //跳转到当前页面
 void toTestPage(BuildContext context) {

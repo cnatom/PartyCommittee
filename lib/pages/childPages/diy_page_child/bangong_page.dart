@@ -23,6 +23,9 @@ class _BangongPageState extends State<BangongPage>
     with SingleTickerProviderStateMixin {
   TabController mController; //Tab控制器
 
+  double _titleFirstFontSize = 15;
+  double _titleSecondFontSize = 14;
+  double _contentRowFontSize = 13;
   //销毁控制器
   @override
   void dispose() {
@@ -51,7 +54,7 @@ class _BangongPageState extends State<BangongPage>
             title,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: _titleFirstFontSize),
           ),
         ),
       );
@@ -66,7 +69,7 @@ class _BangongPageState extends State<BangongPage>
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black, fontSize: 14),
+              style: TextStyle(color: Colors.black, fontSize: _contentRowFontSize),
             ),
           ));
     }
@@ -114,7 +117,7 @@ class _BangongPageState extends State<BangongPage>
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                      fontSize: _titleSecondFontSize),
                                 ),
                               ),
                             ),
@@ -191,7 +194,7 @@ class _BangongPageState extends State<BangongPage>
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                      fontSize: _titleSecondFontSize),
                                 ),
                               ),
                             ),

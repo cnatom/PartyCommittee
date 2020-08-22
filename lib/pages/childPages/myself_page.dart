@@ -103,41 +103,44 @@ class _MyselfPageState extends State<MyselfPage>
       body: RefreshIndicator(
         onRefresh: () => _loadingUserInfo(),
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              MyselfCard(
-                  imageResource: "images/test.png",
-                  name: Global.name == null ? "加载中..." : Global.name,
-                  id: Global.id == null ? "......." : Global.id,
-                  onTap: () => Global.admin == 0
-                      ? toStudentInfoPage(context)
-                      : toTeacherInfoPage(context)),
-              MyTitle("设置"),
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    MyRecButton2("修改密码", 'images/xiugai.png',
-                        onTap: () => toChangePassPage(context)),
-                    MyRecButton2("关于", 'images/guanyu.png',
-                        onTap: () => toAboutPage(context),
-                        onLongPress: () => showToast(
-                            context,
-                            '技术支持：\n\n'
-                            '前端：牟金腾 19级计算机\n\n'
-                            '后端：高远     18级计算机\n\n'
-                            '            魏敬杨 18级计算机',
-                            duration: 3)),
-                  ],
+          physics: BouncingScrollPhysics(),
+          child: Container(
+            height: deviceHeight,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                MyselfCard(
+                    imageResource: "images/test.png",
+                    name: Global.name == null ? "加载中..." : Global.name,
+                    id: Global.id == null ? "......." : Global.id,
+                    onTap: () => Global.admin == 0
+                        ? toStudentInfoPage(context)
+                        : toTeacherInfoPage(context)),
+                MyTitle("设置"),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      MyRecButton2("修改密码", 'images/xiugai.png',
+                          onTap: () => toChangePassPage(context)),
+                      MyRecButton2("关于", 'images/guanyu.png',
+                          onTap: () => toAboutPage(context),
+                          onLongPress: () => showToast(
+                              context,
+                              '技术支持：\n\n'
+                                  '前端：牟金腾 19级计算机\n\n'
+                                  '后端：高远     18级计算机\n\n'
+                                  '            魏敬杨 18级计算机',
+                              duration: 3)),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              )
-            ],
+                SizedBox(
+                  height: 10,
+                )
+              ],
+            ),
           ),
         ),
       ),

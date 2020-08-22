@@ -49,7 +49,6 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _position;
   List<int> transitIndexList = new List<int>();
-
   //基本信息
   Result juzhuResult; //居住地
   TextEditingController juzhuController = new TextEditingController(); //具体居住地
@@ -409,32 +408,38 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
   }
 
   //获取审核步骤信息
+  int subResult = 0;//管理员审核结果 0-审核中 1-审核未通过
   void _passInfoGet() async {
     final token = (await SharedPreferences.getInstance()).getString('token');
     try {
       Response res;
       Dio dio = Dio();
       //配置dio信息
-      res = await dio.get("http://49.233.32.252:9090/api/backSchools/passInfo",
+      res = await dio.get("https://xyt-wx.cumt.edu.cn/api/backSchools/passInfo",
           options: Options(headers: {"Authorization": token}));
       debugPrint(res.toString());
       //Json解码为Map
       Map<String, dynamic> map = jsonDecode(res.toString());
-      if (map['data'] == '未填写') {
-        _position = 0;
-      } else if (map['data'] == '未审核') {
-        _position = 1;
-      } else if (map['data'] == '审核通过') {
-        _passPdfInfoGet();
-        _position = 2;
+      if(map['code']==0){
+        if (map['data'] == '未填写') {
+          _position = 0;
+        } else if (map['data'] == '未审核') {
+          subResult = 0;
+          _position = 1;
+        } else if(map['data'] == '审核未通过'){
+          subResult = 1;
+          _position = 1;
+        }else if (map['data'] == '审核通过') {
+          _passPdfInfoGet();
+          _position = 2;
+        }
+        setState(() {});
       }
-      setState(() {});
     } catch (e) {
-      _position=0;
+      _position=null;
       setState(() {
-
       });
-      print(e.toString());
+      showToast(context, '请求失败，请检查您的网络连接(X_X)');
     }
   }
 
@@ -446,7 +451,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
       Dio dio = Dio();
       //配置dio信息
       res = await dio.get(
-          "http://49.233.32.252:9090/api/backSchools/passInfoPdf",
+          "https://xyt-wx.cumt.edu.cn/api/backSchools/passInfoPdf",
           options: Options(headers: {"Authorization": token}));
       debugPrint(res.toString());
       //Json解码为Map
@@ -462,17 +467,18 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
   //初始化中转行程数据
   @override
   void initState() {
-    build(context);
-    _passInfoGet();
-    print(_position.toString());
-    super.initState();
-    for (int i = 0; i < 5; i++) {
-      qishiController.add(new TextEditingController());
-      chepaiController.add(new TextEditingController());
-      zuoweiController.add(new TextEditingController());
-      mubiaoController.add(new TextEditingController());
+    if(Global.admin==0){
+      _passInfoGet();
+      print(_position.toString());
+      super.initState();
+      for (int i = 0; i < 6; i++) {
+        qishiController.add(new TextEditingController());
+        chepaiController.add(new TextEditingController());
+        zuoweiController.add(new TextEditingController());
+        mubiaoController.add(new TextEditingController());
+      }
+      transitIndexList.add(1);
     }
-    transitIndexList.add(1);
   }
 
   //提交申请
@@ -546,14 +552,18 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
       final token = (await SharedPreferences.getInstance()).getString('token');
       try {
         //配置dio信息
-        res = await dio.post('http://49.233.32.252:9090/api/backSchools',
+        res = await dio.post('https://xyt-wx.cumt.edu.cn/api/backSchools',
             data: subData, options: Options(headers: {'Authorization': token}));
         debugPrint(res.toString());
         Map<String, dynamic> map = jsonDecode(res.toString());
         if (map['code'] == 0) {
           showToast(context, "提交成功");
           setState(() {
-            _position++;
+            if(_position==0){
+              subResult=0;
+              _position++;
+            }
+
           });
         } else {
           showToast(context, '提交失败');
@@ -572,7 +582,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
       Response res;
       Dio dio = Dio();
       //配置dio信息
-      res = await dio.delete("http://49.233.32.252:9090/api/backSchools",
+      res = await dio.post("https://xyt-wx.cumt.edu.cn/api/backSchools/delete",
           options: Options(headers: {"Authorization": token}));
       debugPrint(res.toString());
       //Json解码为Map
@@ -817,7 +827,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
                         blurRadius: 10)
                   ]),
               padding: EdgeInsets.all(20),
-              child: Row(
+              child: subResult==0?Row(
                 children: <Widget>[
                   CupertinoActivityIndicator(),
                   SizedBox(
@@ -825,6 +835,17 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
                   ),
                   Text(
                     "等待管理员审核......",
+                    style: TextStyle(fontSize: 17),
+                  )
+                ],
+              ):Row(
+                children: <Widget>[
+                  Icon(Icons.do_not_disturb),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    "审核未通过，请重新提交",
                     style: TextStyle(fontSize: 17),
                   )
                 ],
@@ -1030,11 +1051,10 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return _position == null
-        ? loadingPage()
-        : Global.admin != 0
-            ? teacherRuxiaoPage()
-            : Scaffold(
+    return Global.admin!=0
+        ? teacherRuxiaoPage()
+        : _position==null
+        ?loadingPage() : Scaffold(
                 key: _scaffoldKey,
                 backgroundColor: pageBackgroundColor,
                 appBar: MyAppBarWhite(context, "入校申请"),
