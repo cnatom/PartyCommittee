@@ -80,9 +80,7 @@ class _MyselfPageState extends State<MyselfPage>
   void initState() {
     build(context);
     super.initState();
-    setState(() {
-      _loadingUserInfo();
-    });
+    _loadingUserInfo();
   }
 
   @override

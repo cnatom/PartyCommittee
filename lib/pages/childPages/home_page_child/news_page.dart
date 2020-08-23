@@ -81,7 +81,7 @@ class _NewsPageState extends State<NewsPage> {
                         ),
                       ),
                       children: widget.content.map((e) => Container(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
                         child: Text("　　"+e,style: TextStyle(fontSize: 17,height: 2),),
                       )).toList()
                   ),

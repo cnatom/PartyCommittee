@@ -167,7 +167,7 @@ Widget MyRecButton1(String text, String subText, String resourceImageId,
   return Material(
     borderRadius: BorderRadius.circular(10),
     color: Colors.white,
-    elevation: 5,
+    elevation: 2,
     shadowColor: shadowColor,
     child: InkWell(
       borderRadius: BorderRadius.circular(10),

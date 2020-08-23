@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:party_committee/NetClass/global.dart';
 import 'package:party_committee/NetRequest/app_upgrade.dart';
 import 'package:party_committee/UI_Widget/colors.dart';
+import 'package:party_committee/UI_Widget/toast.dart';
 import 'package:party_committee/animationEffect/custome_router.dart';
 import 'package:party_committee/pages/childPages/diy_page.dart';
 import 'package:party_committee/pages/childPages/home_page.dart';
 import 'package:party_committee/pages/childPages/myself_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //跳转到当前页面
 void toNavigatorPage(BuildContext context) async{
@@ -36,8 +39,9 @@ class _NavigatorPageState extends State<NavigatorPage> with AutomaticKeepAliveCl
       HomePage(),
       DiyPage(),
       MyselfPage()];
-    upgradeApp(context,auto: true);//检查更新
-
+    if(Global.igUpgrade!=true){
+      upgradeApp(context,auto: true);//用户没有忽略过则检查更新
+    }
   }
 
   @override

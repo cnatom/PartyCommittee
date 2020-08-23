@@ -62,6 +62,7 @@ class _StartPageState extends State<StartPage> {
     final _username = prefs.getString('username') ?? '';
     final _password = prefs.getString('password') ?? '';
     final _token = prefs.getString('token') ?? '';
+    Global.igUpgrade = prefs.getBool('igUpgrade');
     if (await isOnline() == 0) {
       showToast(context, "检测到您已断开网络连接(x_x)");
       Future.delayed(Duration(seconds: 2), () {

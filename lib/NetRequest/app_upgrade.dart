@@ -12,9 +12,11 @@ import 'package:party_committee/UI_Widget/loading.dart';
 import 'package:party_committee/UI_Widget/toast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 void upgradeApp(BuildContext context,{bool auto = false})async{
+  final prefs = await SharedPreferences.getInstance();
   Response res;
   Dio dio = Dio();
   try{
@@ -26,6 +28,7 @@ void upgradeApp(BuildContext context,{bool auto = false})async{
     Map<String,dynamic> map = jsonDecode(res.toString());
     if(map['code']==0){
       if(map['check_res']==true){
+        prefs.setBool('igUpgrade', false);
         updateAlert(context,{
           'isForceUpdate': map['isForceUpgrade'],//是否强制更新
           'content': map['description'],//版本描述
@@ -131,18 +134,41 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
                         style: new TextStyle(color: Color(0xff7A7A7A)))),
               ),
               getLoadingWidget(),
-              new Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 18.0),
-                decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.only(
-                      bottomLeft: Radius.circular(12.0),
-                      bottomRight: Radius.circular(12.0)),
-                ),
-                child: new MaterialButton(
-                  child: new Text('立即升级',style: TextStyle(color: mainColor),),
-                  onPressed: () => upgradeHandle(),
-                ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                      decoration: BoxDecoration(
+                        borderRadius: new BorderRadius.only(
+                            bottomLeft: Radius.circular(12.0),
+                            bottomRight: Radius.circular(12.0)),
+                      ),
+                      child: new MaterialButton(
+                        child: new Text('立即更新',style: TextStyle(color: mainColor,fontWeight: FontWeight.bold),),
+                        onPressed: () => upgradeHandle(),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                      decoration: BoxDecoration(
+                        borderRadius: new BorderRadius.only(
+                            bottomLeft: Radius.circular(12.0),
+                            bottomRight: Radius.circular(12.0)),
+                      ),
+                      child: new MaterialButton(
+                        child: new Text('忽略此版本',style: TextStyle(color: Colors.black38),),
+                        onPressed: ()async{
+                          final prefs = await SharedPreferences.getInstance();
+                          prefs.setBool('igUpgrade', true);
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+                  )
+                ],
               ),
             ],
           ),

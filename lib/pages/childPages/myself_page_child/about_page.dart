@@ -70,7 +70,7 @@ class _AboutPageState extends State<AboutPage> {
                   Container(
                     padding: EdgeInsets.all(40),
                     child: Text("       欢迎使用矿大校园通！这是矿大专属校园App，为校内师生及员工提供办公、管理、校园资讯、信息查询等服务。"
-                        "校内师生使用学号/工号认证即可登录",style: TextStyle(fontSize: 16,letterSpacing: 1,color: mainTextColor),),
+                        "校内师生使用学号/工号认证即可登录",style: TextStyle(fontSize: 15,letterSpacing: 1,color: mainTextColor),),
                   ),
                 ],
               ),
@@ -82,24 +82,24 @@ class _AboutPageState extends State<AboutPage> {
               children: <Widget>[
                 //242,242,246
                 Material(
-                  color:Colors.black.withAlpha(15),
+                  color:Colors.black.withAlpha(8),
                   borderRadius: BorderRadius.circular(50),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(50),
                     onTap: ()=>upgradeApp(context),
                     child: Container(
                       height: 50,
-                      width: deviceWidth * 0.9,
+                      width: deviceWidth * 0.7,
                       alignment: Alignment.center,
                       child: Text(
                         "检查更新",
-                        style: TextStyle(color: mainColor, fontSize: 15),
+                        style: TextStyle(letterSpacing: 1,color: mainColor.withAlpha(230), fontSize: 14,fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: 40,),
-                Text("学工处、黑天鹅互联网工作室  联合维护",style: TextStyle(fontSize: 14,color: Colors.black.withAlpha(150)),)
+                Text("19-牟金腾(前端)、18-高远(后端)、18-魏敬杨(后端)\n学工处  联合制作维护",textAlign:TextAlign.center,style: TextStyle(fontSize: 12,color: Colors.black.withAlpha(150)),)
               ],
             ),
           )

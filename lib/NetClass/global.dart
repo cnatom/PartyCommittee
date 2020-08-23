@@ -23,4 +23,5 @@ class Global{
   static String name;
   static String id;
   static String curVersion;
+  static bool igUpgrade;
 }
