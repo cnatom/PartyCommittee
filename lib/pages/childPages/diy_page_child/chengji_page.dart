@@ -10,6 +10,7 @@ import 'package:party_committee/NetClass/chengji_info.dart';
 import 'package:party_committee/NetClass/global.dart';
 import 'package:party_committee/UI_Widget/MyUiWidgets.dart';
 import 'package:party_committee/UI_Widget/colors.dart';
+import 'package:party_committee/UI_Widget/loading.dart';
 import 'package:party_committee/UI_Widget/toast.dart';
 
 //跳转到当前页面
@@ -25,9 +26,9 @@ class ChengjiPage extends StatefulWidget {
 
 class _ChengjiPageState extends State<ChengjiPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool _loading = true;
+  bool _loading = false;
   List _crossFadeState =
-  new List.filled(50, CrossFadeState.showFirst); //控制详细列表的展开闭合
+      new List.filled(50, CrossFadeState.showFirst); //控制详细列表的展开闭合
   String _xuenian;
   String _xueqi;
   List<String> _xuenianData;
@@ -70,6 +71,9 @@ class _ChengjiPageState extends State<ChengjiPage> {
 
   //成绩查询
   Future<Null> _chengjiGet(String xueqi, String xuenian, String token) async {
+    setState(() {
+      _loading = true; //加载动画开启
+    });
     xueqi == "1" ? xueqi = "3" : xueqi = "12";
     Response res;
     BaseOptions baseOptions = BaseOptions(
@@ -83,6 +87,7 @@ class _ChengjiPageState extends State<ChengjiPage> {
       debugPrint(res.toString());
       Map<String, dynamic> map = jsonDecode(res.toString());
       setState(() {
+        _loading = false;
         _crossFadeState = List.filled(50, CrossFadeState.showFirst);
         Global.chengjiInfo = ChengjiInfo.fromJson(map);
         if (Global.chengjiInfo.code == 0 && Global.chengjiInfo.data.isEmpty) {
@@ -91,18 +96,19 @@ class _ChengjiPageState extends State<ChengjiPage> {
       });
     } catch (e) {
       debugPrint(e.toString());
+      setState(() {
+        _loading = false;
+      });
       showToast(context, "查询失败,请检查您的网络连接(x_x)");
     }
   }
-  void _inquireFunc(){
-    if(Global.admin == 0){
-      _chengjiGet(
-          _xueqi, _xuenian, Global.loginInfo.data.token);
-      setState(() {});
-    }else{
-      showToast(context,"您没有成绩(>_<)");
-    }
 
+  void _inquireFunc() {
+    if (Global.admin == 0) {
+      _chengjiGet(_xueqi, _xuenian, Global.loginInfo.data.token);
+    } else {
+      showToast(context, "您没有成绩(>_<)");
+    }
   }
 
   @override
@@ -119,10 +125,13 @@ class _ChengjiPageState extends State<ChengjiPage> {
     _xueqi = "1";
     _xuenian = "2019";
   }
+
   @override
   void dispose() {
     super.dispose();
-    Global.chengjiInfo.data.clear();
+    if (Global.chengjiInfo.data != null) {
+      Global.chengjiInfo.data.clear();
+    }
   }
 
   @override
@@ -181,7 +190,6 @@ class _ChengjiPageState extends State<ChengjiPage> {
       ],
     );
   }
-
 
   //成绩列表
   Widget _scoreCardArea() {
@@ -326,12 +334,11 @@ class _ChengjiPageState extends State<ChengjiPage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: MyAppBarColorful(context,"成绩查询"),
+      appBar: MyAppBarColorful(context, "成绩查询"),
       backgroundColor: pageBackgroundColor,
       body: SingleChildScrollView(
         child: Stack(
@@ -342,13 +349,8 @@ class _ChengjiPageState extends State<ChengjiPage> {
               child: Container(
                 height: 90,
                 decoration: BoxDecoration(
-                    gradient:LinearGradient(
-                        colors: [
-                          mainColor,
-                          mainColor.withAlpha(200)
-                        ]
-                    )
-                ),
+                    gradient: LinearGradient(
+                        colors: [mainColor, mainColor.withAlpha(200)])),
               ),
             ),
             Column(
@@ -387,8 +389,17 @@ class _ChengjiPageState extends State<ChengjiPage> {
                 SizedBox(
                   height: 20,
                 ),
-                MyFlatButton("查询",onTap: ()=>_inquireFunc()),
-                _scoreCardArea(),
+                MyFlatButton("查询", onTap: () => _inquireFunc()),
+                _loading == null
+                    ? Container()
+                    : _loading == true
+                        ? Container(
+                  height: 150,
+                  child: Center(
+                    child: loadingAnimationWave,
+                  ),
+                )
+                        : _scoreCardArea(),
                 SizedBox(
                   height: 100,
                 ),

@@ -19,7 +19,7 @@ Widget swiperWidget() {
               Global.swiperInfo.data[index].imgCompressedUrl,
               fit: BoxFit.fill,
             ))
-          : loadingAnimation;
+          : loadingAnimationWave;
     },
     itemCount: 6,
     pagination: new SwiperPagination(

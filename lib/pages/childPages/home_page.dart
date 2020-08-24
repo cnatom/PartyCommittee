@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/NetClass/global.dart';
+import 'package:party_committee/NetClass/news_info.dart';
 import 'package:party_committee/NetRequest/news_get.dart';
 import 'package:party_committee/NetRequest/signout_post.dart';
 import 'package:party_committee/NetRequest/swiper_get.dart';
@@ -31,7 +32,6 @@ import 'dart:io';
 
 import '../null_page.dart';
 
-
 //用于取消蓝色回弹效果
 class MyBehavior extends ScrollBehavior {
   @override
@@ -52,12 +52,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
-
   List<NetworkImage> swiperImgList; //用于提前缓存轮播图的网络图片
-
 
   //加载轮播图、新闻数据
   Future<Null> _loadingInfo() async {
+
     await swiperGet();
     await newsGet();
     setState(() {
@@ -69,6 +68,18 @@ class _HomePageState extends State<HomePage>
       }
     });
   }
+  Future<Null> _refreshNews()async{
+    if (Global.newsInfo.data != null) {
+      setState(() {
+        Global.newsInfo = new NewsInfo();
+      });
+    }
+    await newsGet();
+    setState(() {
+
+    });
+  }
+
 
   @override
   void initState() {
@@ -77,7 +88,7 @@ class _HomePageState extends State<HomePage>
   }
 
   //轮播图区域
-  Widget _swiperArea(){
+  Widget _swiperArea() {
     return Material(
       color: iconBackColor,
       borderRadius: BorderRadius.circular(10),
@@ -100,8 +111,8 @@ class _HomePageState extends State<HomePage>
         return MyNewsItemButton(
             title: item.title,
             time: item.time,
-            onTap: () => toNewsPage(
-                context, item.title, item.paragraphs, item.time));
+            onTap: () =>
+                toNewsPage(context, item.title, item.paragraphs, item.time));
       }).toList(),
     );
   }
@@ -109,36 +120,57 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: pageBackgroundColor,
-      appBar: MyMainAppBar("主页"),
+        backgroundColor: pageBackgroundColor,
+        appBar: MyMainAppBar("主页"),
         body: RefreshIndicator(
-          onRefresh: _loadingInfo,
+          onRefresh: _refreshNews,
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 10),
-                Center(child: _swiperArea(),),//轮播图
-                SizedBox(height: 20,),
+                Center(
+                  child: _swiperArea(),
+                ), //轮播图
+                SizedBox(
+                  height: 20,
+                ),
                 MyTitle("常用功能"),
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    MyRecButton1("入校申请", "Ask of leave", 'images/fanxiao1.png',onTap: ()=>toRuxiaoPage(context)),
-                    MyRecButton1("销假", "Back from leave", 'images/xiaojia1.png',onTap: ()=>toNullPage(context)),
+                    MyRecButton1("入校申请", "Ask of leave", 'images/fanxiao1.png',
+                        onTap: () => toRuxiaoPage(context)),
+                    MyRecButton1("销假", "Back from leave", 'images/xiaojia1.png',
+                        onTap: () => toNullPage(context)),
                   ],
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 MyTitle("校园资讯"),
                 SizedBox(height: 10),
-                Global.newsInfo.data != null ? schoolNewsArea() : Container(height: 500,alignment: Alignment.topCenter,child: loadingAnimation,)
+                Global.newsInfo.data != null
+                    ? schoolNewsArea()
+                    : Container(
+                        height: 500,
+                        alignment: Alignment.topCenter,
+                        child: Wrap(
+                          children: <Widget>[
+                            loadingAnimationArticle(),
+                            loadingAnimationArticle(),
+                            loadingAnimationArticle()
+                          ],
+                        ),
+                      )
               ],
             ),
           ),
         ));
   }
+
   @override
   bool get wantKeepAlive => true;
 }

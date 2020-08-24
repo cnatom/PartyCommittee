@@ -377,7 +377,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
         maxTime: DateTime(2020, 12, 31), onConfirm: (date) {
       setState(() {
         daoxiao =
-            "${date.year.toString()}年${date.month.toString()}月${date.day.toString()}日";
+            "${date.year.toString()}/${date.month.toString()}/${date.day.toString()}";
       });
     }, currentTime: DateTime.now(), locale: LocaleType.zh);
   }
@@ -389,7 +389,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
         maxTime: DateTime(2020, 12, 31), onConfirm: (date) {
       setState(() {
         jihua =
-            "${date.year.toString()}年${date.month.toString()}月${date.day.toString()}日 ${date.hour.toString()}:${date.minute.toString()}";
+            "${date.year.toString()}/${date.month.toString()}/${date.day.toString()} ${date.hour.toString()}:${date.minute.toString()}";
       });
     }, currentTime: DateTime.now(), locale: LocaleType.zh);
   }
@@ -402,7 +402,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
       setState(() {
         dixuHour = date.hour;
         dixuTime =
-            "${date.year.toString()}年${date.month.toString()}月${date.day.toString()}日 ${date.hour.toString()}:${date.minute.toString()}";
+            "${date.year.toString()}/${date.month.toString()}/${date.day.toString()} ${date.hour.toString()}:${date.minute.toString()}";
       });
     }, currentTime: DateTime.now(), locale: LocaleType.zh);
   }
@@ -665,7 +665,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
   Widget loadingPage() => Scaffold(
         appBar: MyAppBarWhite(context, '入校申请'),
         body: Center(
-          child: loadingAnimation,
+          child: loadingAnimationWave,
         ),
       );
   //教职工页
@@ -861,7 +861,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
   //第三步
   Widget firstStep3() => Global.passPdfInfo.data == null
       ? Center(
-          child: loadingAnimation,
+          child: loadingAnimationWave,
         )
       : Container(
           height: 1200,

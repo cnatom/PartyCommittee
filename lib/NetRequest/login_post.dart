@@ -33,6 +33,7 @@ Future<bool> loginPost({String username, String password}) async {
       prefs.setString('username', username);
       prefs.setString('password', password);
       Global.id = username;
+      Global.name = Global.loginInfo.data.name;
       return true;
     }else{
       return false;

@@ -24,6 +24,21 @@ class TeacherInfoPage extends StatefulWidget {
 }
 
 class _TeacherInfoPageState extends State<TeacherInfoPage> {
+  Future<Null> _loadingUserInfo() async {
+    if (Global.studentInfo.data == null || Global.teacherInfo.data == null) {
+      final token = (await SharedPreferences.getInstance()).getString('token');
+      await userInfoGet(token);
+      setState(() {
+
+      });
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+    _loadingUserInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +59,7 @@ class _TeacherInfoPageState extends State<TeacherInfoPage> {
         backgroundColor: pageBackgroundColor,
         body: Global.teacherInfo.data == null
             ? Center(
-                child: loadingAnimation,
+                child: loadingAnimationWave,
               )
             : CustomScrollView(
                 physics: BouncingScrollPhysics(),

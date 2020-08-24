@@ -68,7 +68,7 @@ class _XueshengChildPageState extends State<XueshengChildPage> {
         ):null,
         backgroundColor: pageBackgroundColor,
         body: Global.studentInfo.data==null
-            ?Center(child: loadingAnimation,)
+            ?Center(child: loadingAnimationWave,)
             :CustomScrollView(
           physics: BouncingScrollPhysics(),
           slivers: <Widget>[

@@ -26,10 +26,8 @@ userInfoGet(
     //根据权限决定数据分配实例
     if(Global.admin == 0){
       Global.studentInfo = StudentInfo.fromJson(map);
-      Global.name = Global.studentInfo.data.name;
     }else{
       Global.teacherInfo = TeacherInfo.fromJson(map);
-      Global.name = Global.teacherInfo.data.name;
     }
   } catch (e) {
     print(e.toString());

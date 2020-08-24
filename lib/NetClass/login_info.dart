@@ -23,23 +23,26 @@ class LoginInfo {
 }
 
 class Data {
-  String oldIp;
-  String ip;
   String token;
+  String name;
+  String oldIp;
+  String newIp;
 
-  Data({this.oldIp, this.ip, this.token});
+  Data({this.token, this.name, this.oldIp, this.newIp});
 
   Data.fromJson(Map<String, dynamic> json) {
-    oldIp = json['oldIp'];
-    ip = json['本次登录ip'];
     token = json['token'];
+    name = json['name'];
+    oldIp = json['oldIp'];
+    newIp = json['newIp'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['oldIp'] = this.oldIp;
-    data['本次登录ip'] = this.ip;
     data['token'] = this.token;
+    data['name'] = this.name;
+    data['oldIp'] = this.oldIp;
+    data['newIp'] = this.newIp;
     return data;
   }
 }

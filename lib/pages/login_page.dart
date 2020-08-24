@@ -13,6 +13,7 @@ import 'package:party_committee/NetRequest/app_upgrade.dart';
 import 'package:party_committee/NetRequest/login_post.dart';
 import 'package:party_committee/NetRequest/signout_post.dart';
 import 'package:party_committee/UI_Widget/containers.dart';
+import 'package:party_committee/UI_Widget/loading.dart';
 import 'package:party_committee/UI_Widget/toast.dart';
 import 'package:party_committee/animationEffect/custome_router.dart';
 import 'package:party_committee/pages/navigator_page.dart';
@@ -41,13 +42,20 @@ class _LoginPageState extends State<LoginPage> {
   String _username; //账号
   String _password; //密码
   GlobalKey<FormState> _formKey = GlobalKey<FormState>(); //表单状态
+  bool _loading = false;
   //点击登录后的行为
   _loginFunc() async {
+    setState(() {
+      _loading = true;
+    });
     var _form = _formKey.currentState;
     _form.save();
     try {
       await loginPost(username: _username, password: _password);
       if (Global.loginInfo.code != 0) {
+        setState(() {
+          _loading = false;
+        });
         showToast(
             context,
             Global.loginInfo.message == null
@@ -57,6 +65,9 @@ class _LoginPageState extends State<LoginPage> {
         toNavigatorPage(context);
       }
     } catch (e) {
+      setState(() {
+        _loading = false;
+      });
       showToast(context, "登录失败,请检查您的网络连接");
     }
   }
@@ -151,49 +162,26 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[loginButtonArea()],
+                  children: <Widget>[_loading==false?loginButtonArea():loadingAnimationTwoCircles],
                 ),
-                Row(
+                _loading==false?Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     greyFlatButton("忘记密码",
                         onPressed: () => Toast.show(
                             '请联系辅导员老师修改密码\n（默认密码为您的8位生日）', context,
                             gravity: Toast.CENTER, duration: 2)),
-                    Container(height: 14,width: 1,color: Colors.black.withAlpha(60),),
+                    Container(
+                      height: 14,
+                      width: 1,
+                      color: Colors.black.withAlpha(60),
+                    ),
                     greyFlatButton("检查更新",
                         onPressed: () => upgradeApp(context)),
-
                   ],
-                ),
+                ):Container(),
               ],
             ),
-          ),
-        );
-
-    Widget loadingPage() => Scaffold(
-          body: Stack(
-            children: <Widget>[
-              Positioned(
-                height: deviceHeight,
-                width: deviceWidth,
-                child: Image.asset(
-                  'images/login_background.png',
-                  fit: BoxFit.fill,
-                ),
-              ),
-              Positioned.fill(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-                  child: Opacity(
-                    opacity: 0.2,
-                    child: Container(
-                      decoration: BoxDecoration(color: Colors.white),
-                    ),
-                  ),
-                ),
-              )
-            ],
           ),
         );
 
@@ -219,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: deviceHeight,
                 alignment: AlignmentDirectional.center,
                 padding: EdgeInsets.fromLTRB(
-                    deviceWidth * 0.05, 0, deviceWidth * 0.05, 0),
+                    deviceWidth * 0.07, 0, deviceWidth * 0.07, 0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
