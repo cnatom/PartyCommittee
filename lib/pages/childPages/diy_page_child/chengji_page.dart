@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyhub/flutter_easy_hub.dart';
 import 'package:flutter_picker/Picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/NetClass/chengji_info.dart';
 import 'package:party_committee/NetClass/global.dart';
@@ -71,9 +72,7 @@ class _ChengjiPageState extends State<ChengjiPage> {
 
   //成绩查询
   Future<Null> _chengjiGet(String xueqi, String xuenian, String token) async {
-    setState(() {
-      _loading = true; //加载动画开启
-    });
+
     xueqi == "1" ? xueqi = "3" : xueqi = "12";
     Response res;
     BaseOptions baseOptions = BaseOptions(
@@ -104,10 +103,23 @@ class _ChengjiPageState extends State<ChengjiPage> {
   }
 
   void _inquireFunc() {
+    setState(() {
+      _loading = true; //加载动画开启
+    });
     if (Global.admin == 0) {
       _chengjiGet(_xueqi, _xuenian, Global.loginInfo.data.token);
     } else {
-      showToast(context, "您没有成绩(>_<)");
+      setState(() {
+        _loading = true;
+      });
+      setState(() {
+        Future.delayed(Duration(seconds: 1), () {
+          setState(() {
+            _loading = false;
+            showToast(context, "没有查到您的成绩(>_<)");
+          });
+        });
+      });
     }
   }
 
@@ -149,23 +161,23 @@ class _ChengjiPageState extends State<ChengjiPage> {
         Text(
           leftText,
           style: TextStyle(
-            fontSize: 16,
+            fontSize: fontSizeMini35,
           ),
         ),
         Material(
           color: iconBackColor,
           elevation: 1,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(50)),
           child: InkWell(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(50)),
             onTap: onTap,
             child: Container(
               alignment: Alignment.center,
-              height: 40,
-              width: 120,
+              height: fontSizeMini35*2.5,
+              width: fontSizeMini35*8,
               child: Text(
                 rightText,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: fontSizeMini35),
               ),
             ),
           ),
@@ -181,11 +193,11 @@ class _ChengjiPageState extends State<ChengjiPage> {
       children: <Widget>[
         Text(
           "$title：",
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: fontSizeMini35),
         ),
         Text(
           content,
-          style: TextStyle(fontSize: 16, color: mainColor),
+          style: TextStyle(fontSize: fontSizeMini35, color: mainColor),
         )
       ],
     );
@@ -207,14 +219,14 @@ class _ChengjiPageState extends State<ChengjiPage> {
               return Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 20,
+                    height: ScreenUtil().setWidth(40),
                   ),
                   Material(
-                    borderRadius: BorderRadius.circular(20),
-                    elevation: 5,
+                    borderRadius: BorderRadius.circular(ScreenUtil().setWidth(50)),
+                    elevation: 2,
                     shadowColor: Colors.black45,
                     child: Container(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsets.all(fontSizeMini35),
                       width: deviceWidth * 0.9,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -228,12 +240,13 @@ class _ChengjiPageState extends State<ChengjiPage> {
                                   Icon(
                                     Icons.location_on,
                                     color: Colors.black45,
+                                    size:fontSizeNormalTitle45
                                   ),
                                   Text(
                                     " " + item.kcmc,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: fontSizeMini35,
                                     ),
                                   )
                                 ],
@@ -241,10 +254,10 @@ class _ChengjiPageState extends State<ChengjiPage> {
                               Flexible(
                                   flex: 1,
                                   child: Material(
-                                    borderRadius: BorderRadius.circular(40),
+                                    borderRadius: BorderRadius.circular(ScreenUtil().setWidth(50)),
                                     color: mainColor.withAlpha(210),
                                     child: InkWell(
-                                      borderRadius: BorderRadius.circular(40),
+                                      borderRadius: BorderRadius.circular(ScreenUtil().setWidth(50)),
                                       onTap: () {
                                         _crossFadeState[curIndex] =
                                             _crossFadeState[curIndex] ==
@@ -255,13 +268,13 @@ class _ChengjiPageState extends State<ChengjiPage> {
                                       },
                                       child: Container(
                                         alignment: Alignment.center,
-                                        width: 90,
-                                        height: 35,
+                                        width: fontSizeMini35*6,
+                                        height: fontSizeMini35*2.2,
                                         child: Text(
                                           "总评：${item.bfzcj}",
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 15),
+                                              fontSize: fontSizeMini35),
                                         ),
                                       ),
                                     ),
@@ -269,11 +282,11 @@ class _ChengjiPageState extends State<ChengjiPage> {
                             ],
                           ),
                           Divider(
-                            height: 18,
+                            height: ScreenUtil().setWidth(50),
                           ),
                           //学分 绩点
                           Container(
-                            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0, ScreenUtil().setWidth(20), 0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -288,7 +301,7 @@ class _ChengjiPageState extends State<ChengjiPage> {
                             secondChild: Column(
                               children: <Widget>[
                                 Divider(
-                                  height: 30,
+                                  height: ScreenUtil().setWidth(60),
                                 ),
                                 Row(
                                     children: scoreDetail.map((item) {
@@ -304,15 +317,15 @@ class _ChengjiPageState extends State<ChengjiPage> {
                                           item["component_ratio"] != "0%"
                                               ? "${item["component_name"]} (${item["component_ratio"]})"
                                               : "${item["component_name"]}",
-                                          style: TextStyle(fontSize: 16),
+                                          style: TextStyle(fontSize: fontSizeMini35),
                                         ),
                                         SizedBox(
-                                          height: 10,
+                                          height: ScreenUtil().setWidth(30),
                                         ),
                                         Text(
                                           "${item["component_score"]}",
                                           style: TextStyle(
-                                              fontSize: 16, color: mainColor),
+                                              fontSize: fontSizeMini35, color: mainColor),
                                         )
                                       ],
                                     ),
@@ -347,7 +360,7 @@ class _ChengjiPageState extends State<ChengjiPage> {
             //主题色底图
             Positioned(
               child: Container(
-                height: 90,
+                height: ScreenUtil().setWidth(200),
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         colors: [mainColor, mainColor.withAlpha(200)])),
@@ -358,15 +371,15 @@ class _ChengjiPageState extends State<ChengjiPage> {
               children: <Widget>[
                 //选择区
                 SizedBox(
-                  height: 10,
+                  height: ScreenUtil().setWidth(20),
                 ),
                 Material(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(50)),
                   color: Colors.white,
                   elevation: 4,
                   shadowColor: Colors.black26,
                   child: Container(
-                    padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                    padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(60), fontSizeNormal40, ScreenUtil().setWidth(60), fontSizeNormal40),
                     width: deviceWidth * 0.9,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -378,7 +391,7 @@ class _ChengjiPageState extends State<ChengjiPage> {
                                 : "${_xuenian}-${int.parse(_xuenian) + 1}",
                             () => _showXuenianPicker(context)),
                         Divider(
-                          height: 20,
+                          height: ScreenUtil().setWidth(50),
                         ),
                         _chooseItemArea("选择学期", "第 ${_xueqi} 学期",
                             () => _showXueqiPicker(context))
@@ -387,17 +400,20 @@ class _ChengjiPageState extends State<ChengjiPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: ScreenUtil().setWidth(40),
                 ),
                 MyFlatButton("查询", onTap: () => _inquireFunc()),
                 _loading == null
                     ? Container()
                     : _loading == true
-                        ? Container(
-                  height: 150,
-                  child: Center(
-                    child: loadingAnimationWave,
-                  ),
+                        ? Column(
+                  children: <Widget>[
+                    loadingAnimationArticle(),
+                    loadingAnimationArticle(),
+                    loadingAnimationArticle(),
+                    loadingAnimationArticle(),
+
+                  ],
                 )
                         : _scoreCardArea(),
                 SizedBox(

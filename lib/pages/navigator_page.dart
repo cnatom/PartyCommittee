@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:party_committee/NetClass/global.dart';
 import 'package:party_committee/NetRequest/app_upgrade.dart';
@@ -44,6 +45,12 @@ class _NavigatorPageState extends State<NavigatorPage> with AutomaticKeepAliveCl
     }
   }
 
+  BottomNavigationBarItem _bottomNavigationBar(String title,IconData iconData)=>BottomNavigationBarItem(
+      title: Text(title,style: TextStyle(fontSize: fontSizeMini35),),
+      icon: Icon(
+        iconData,
+        size: ScreenUtil().setSp(60),
+      ));
   @override
   Widget build(BuildContext context) {
     var _pageController = PageController();
@@ -65,21 +72,9 @@ class _NavigatorPageState extends State<NavigatorPage> with AutomaticKeepAliveCl
           unselectedItemColor: Colors.black87,
           elevation: 0,
           items: [
-            BottomNavigationBarItem(
-                title: Text("主页"),
-                icon: Icon(
-                  FeatherIcons.home,
-                )),
-            BottomNavigationBarItem(
-                title: Text("功能"),
-                icon: Icon(
-                  OMIcons.explore,
-                )),
-            BottomNavigationBarItem(
-                title: Text("我的"),
-                icon: Icon(
-                  OMIcons.person,
-                ))
+            _bottomNavigationBar('主页',FeatherIcons.home),
+            _bottomNavigationBar('功能',OMIcons.explore),
+            _bottomNavigationBar('我的',OMIcons.person),
           ],
           currentIndex: _currentIndex,
           onTap: (int index) {

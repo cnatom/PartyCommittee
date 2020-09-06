@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/NetClass/global.dart';
 import 'package:party_committee/NetClass/student_info.dart';
 import 'package:party_committee/NetRequest/changepass_post.dart';
-import 'package:party_committee/NetRequest/signout_post.dart';
 import 'package:party_committee/UI_Widget/MyUiWidgets.dart';
-import 'package:party_committee/UI_Widget/appBar.dart';
-import 'package:party_committee/UI_Widget/buttons.dart';
 import 'package:party_committee/UI_Widget/colors.dart';
+import 'package:party_committee/UI_Widget/toast.dart';
 import 'package:party_committee/animationEffect/custome_router.dart';
 import 'package:party_committee/pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,7 +33,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
   //点击确定后的行为
   _determineFunc() async{
     if(newPasswordController.text.length < 4){
-      Toast.show("密码最低4位", context,backgroundRadius: 20,gravity: Toast.CENTER,duration: 2);
+      showToast(context, '密码最低4位');
     }else{
       final token = await (await SharedPreferences.getInstance()).getString('token');
       await changePassPost(
@@ -46,7 +45,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
       }else{
         Global.studentInfo = new StudentInfo();
         (await SharedPreferences.getInstance()).clear();
-        Toast.show("密码更新成功！", context,backgroundRadius: 20,gravity: Toast.CENTER,duration: 1);
+        showToast(context, '密码更新成功！',duration: 1);
         Future.delayed(Duration(seconds: 1), (){
           Navigator.of(context).pushAndRemoveUntil(CustomRoute(LoginPage()),(route) => route == null);
         });
@@ -54,6 +53,36 @@ class _ChangePassPageState extends State<ChangePassPage> {
       }
     }
   }
+
+  Widget _inputArea(String title,String hintText,{TextEditingController controller})=>Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Container(
+        padding: EdgeInsets.fromLTRB(ScreenUtil().setSp(50), 0, 0, ScreenUtil().setSp(30)),
+        child: Text(
+          title,
+          style: TextStyle(fontSize: fontSizeNormal40, color: Colors.black45),
+        ),
+      ),
+      Container(
+        height: ScreenUtil().setSp(120),
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.black38, width: 0.1)),
+        padding: EdgeInsets.fromLTRB(ScreenUtil().setSp(50), 0, 0, 0),
+        child: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintStyle: TextStyle(fontSize: fontSizeNormal40,),
+            hintText: hintText,
+            border: InputBorder.none,
+          ),
+        ),
+      ),
+    ],
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,77 +92,13 @@ class _ChangePassPageState extends State<ChangePassPage> {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(20, 0, 0, 10),
-                child: Text(
-                  "旧密码:",
-                  style: TextStyle(fontSize: 16, color: Colors.black45),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black38, width: 0.1)),
-                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                child: TextField(
-                  controller: oldPasswordController,
-                  decoration: InputDecoration(
-                    hintText: "在此输入旧密码",
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(20, 0, 0, 10),
-                child: Text(
-                  "新密码:",
-                  style: TextStyle(fontSize: 16, color: Colors.black45),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black38, width: 0.1)),
-                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                child: TextField(
-                  controller: newPasswordController,
-                  decoration: InputDecoration(
-                    hintText: "新密码至少6位",
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              SizedBox(height:80,),
-              //确定按钮
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(0),
-                    child: Material(
-                      borderRadius: BorderRadius.circular(5),
-                      color: mainColor,
-                      child:InkWell(
-                        onTap: ()=>_determineFunc(),
-                        child: Container(
-                          height: 40,
-                          width: deviceWidth/3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text("确定",style: TextStyle(fontSize: 15,color: Colors.white,letterSpacing: 10,fontWeight: FontWeight.bold)),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+              SizedBox(height: ScreenUtil().setWidth(50),),
+              _inputArea('旧密码：', '在此输入旧密码',controller: oldPasswordController),
+              SizedBox(height: ScreenUtil().setWidth(50),),
+              _inputArea('新密码：', '新密码至少4位',controller: newPasswordController),
+              SizedBox(height: ScreenUtil().setWidth(200),),
+              Center(
+                child: MyFlatButtonWithoutGradient('确定',onTap: ()=>_determineFunc()),
               )
             ]),
       ),

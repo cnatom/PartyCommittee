@@ -34,7 +34,6 @@ Future<bool> signOutPost(BuildContext context,String token) async {
 
   }catch(e){
     debugPrint(e.toString());
-    print("hello");
     return false;
   }
 

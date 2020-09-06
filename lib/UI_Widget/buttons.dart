@@ -21,6 +21,19 @@ Widget roundButton = Container(
       }),
 );
 
+//小按钮
+Widget greyFlatButton(String text, {VoidCallback onPressed,double fontSize}) => FlatButton(
+  onPressed: onPressed,
+  highlightColor: Colors.transparent, //点击后的颜色为透明
+  splashColor: Colors.transparent, //点击波纹的颜色为透明
+  child: Text(
+    text,
+    style: TextStyle(
+        color: Colors.black38, //字体颜色
+        fontSize: fontSizeMini35),
+  ),
+);
+
 //功能页函数按钮(下方带文字)
 Widget funcPageButton(
     {String title = '', //下方的文本

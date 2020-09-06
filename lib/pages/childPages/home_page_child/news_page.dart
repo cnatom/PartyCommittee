@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/UI_Widget/MyUiWidgets.dart';
@@ -41,8 +42,8 @@ class _NewsPageState extends State<NewsPage> {
                 Container(
                   color: mainColor,
 
-                  width: 6,
-                  height: 70,
+                  width: ScreenUtil().setWidth(8),
+                  height: ScreenUtil().setSp(140),
                 ),
                 Flexible(
                   flex: 1,
@@ -53,11 +54,11 @@ class _NewsPageState extends State<NewsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          child: Text(widget.title,overflow:TextOverflow.ellipsis,maxLines: 3,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                          child: Text(widget.title,overflow:TextOverflow.ellipsis,maxLines: 3,style: TextStyle(fontSize: fontSizeNormalTitle45,fontWeight: FontWeight.bold),),
                         ),
                         SizedBox(height: 10,),
                         Container(
-                          child: Text(widget.time,style: TextStyle(color:Colors.black45),),
+                          child: Text(widget.time,style: TextStyle(color:Colors.black45,fontSize: fontSizeNormal40),),
                         ),
                       ],
                     ),
@@ -82,7 +83,7 @@ class _NewsPageState extends State<NewsPage> {
                       ),
                       children: widget.content.map((e) => Container(
                         padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                        child: Text("　　"+e,style: TextStyle(fontSize: 17,height: 2),),
+                        child: Text("　　"+e,style: TextStyle(fontSize: fontSizeNormal40,height: 2),),
                       )).toList()
                   ),
                 ),

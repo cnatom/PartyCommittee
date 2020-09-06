@@ -11,6 +11,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_easyhub/flutter_easy_hub.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:party_committee/NetClass/global.dart';
 import 'package:party_committee/NetClass/passPdf_info.dart';
@@ -32,6 +33,35 @@ void toRuxiaoPage(BuildContext context) {
 class ChuXing {
   Map data;
 }
+Map subData = {
+  'stuNum': Global.id, //学号
+
+  'address1': '', //居住地
+  'emergencyCallee': '', //紧急联系人
+  'emergencyPhone': '', //紧急联系电话
+  //申请内容
+  'date': '', //到校日期
+  'loc': '', //出发地
+  'reason': '', //请描述必要的返校原因
+  //个人行程
+  'note': '', //个人行程
+  'hour': 23, //抵徐时间(小时)
+  'pickupLoc': '', //抵徐地点
+
+  'company': '', //陪同人员
+  'pass': 0, //是否批准  （0没批 1拒绝 2批准）
+  'q1': 0, //近两周是否接触过有发热或呼吸道感染症状的人员(0没接触 1接触过)
+  'q2': 0, //近两周是否有境外旅居史(0没接触 1接触过)
+  'q3': 0, //近两周是否接触过境外归国人员  (0没接触 1接触过)
+  'q4': 0, //近两周是否有发热、干咳、乏力等症状(0没接触 1接触过)
+  'guardian': '', //家长监护人姓名
+
+  'departure':'',//由()站 第一个
+  'destination':'',//到()站 最后一个
+  'transport':'',//出行方式
+  'seat':'',//座位号
+  'car':'',//车牌号/车次
+};
 
 class RuxiaoPage extends StatefulWidget {
   @override
@@ -39,13 +69,8 @@ class RuxiaoPage extends StatefulWidget {
 }
 
 class _RuxiaoPageState extends State<RuxiaoPage> {
-  TextStyle _itemTitleStyle =
-      TextStyle(fontSize: 15, color: Color.fromARGB(255, 139, 143, 155));
-  TextStyle _itemContentStyle = TextStyle(fontSize: 15);
-  Icon _rightArrowIcon = Icon(
-    Icons.chevron_right,
-    color: Colors.black.withAlpha(150),
-  );
+  String _checkInResult;//"您的申请已通过！","您已报到！"
+  bool _loading = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _position;
   List<int> transitIndexList = new List<int>();
@@ -96,9 +121,9 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
         child: TextField(
           maxLines: maxLines,
           controller: controller,
-          style: TextStyle(color: mainTextColor),
+          style: TextStyle(color: mainTextColor,),
           decoration:
-              InputDecoration(border: InputBorder.none, hintText: hintText),
+              InputDecoration(border: InputBorder.none, hintText: hintText,hintStyle: TextStyle(fontSize: fontSizeNormal40)),
         ),
       );
 
@@ -119,7 +144,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
           Container(
             alignment: Alignment.centerRight,
             padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-            height: 45,
+            height: ScreenUtil().setWidth(120),
             width: 200,
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black38, width: 0.5),
@@ -169,7 +194,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
           Container(
             alignment: Alignment.centerRight,
             padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-            height: 45,
+            height: ScreenUtil().setWidth(120),
             width: 200,
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black38, width: 0.5),
@@ -223,18 +248,10 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
   Widget MyTitleItem(String title) {
     return Text(
       title,
-      style: TextStyle(fontSize: 15, color: mainTextColor),
+      style: TextStyle(fontSize: fontSizeNormal40, color: mainTextColor),
     );
   }
 
-  //步标题组件
-  Widget MyTitleStep(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-          fontSize: 21, color: mainTextColor, fontWeight: FontWeight.bold),
-    );
-  }
 
   //竖直分布卡片
   Widget _columnCard({List<Widget> children = const <Widget>[]}) {
@@ -249,43 +266,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
     );
   }
 
-//长条式卡片按钮(有内容)
-  Widget _rowFlexButtonWithContent(String title, String content,
-      {GestureTapCallback onTap}) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: onTap,
-        child: Container(
-          padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
-          //信息列表
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      title,
-                      style: _itemTitleStyle,
-                    ),
-                    Text(
-                      content,
-                      maxLines: 100,
-                      style: _itemContentStyle,
-                    )
-                  ],
-                ),
-              ),
-              _rightArrowIcon
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+
 
   //增加/删除中转 按钮
   Widget MyLittleButton(String title,
@@ -296,14 +277,14 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 40,
+          height: ScreenUtil().setWidth(100),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
           ),
           alignment: Alignment.center,
           child: Text(title,
               style: TextStyle(
-                  fontSize: 15,
+                  fontSize: fontSizeNormal40,
                   color: Colors.white,
                   letterSpacing: 2,
                   fontWeight: FontWeight.bold)),
@@ -320,7 +301,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
         children: <Widget>[
           Text(
             question,
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: fontSizeNormal40, fontWeight: FontWeight.bold),
           ),
           Row(
             children: <Widget>[
@@ -431,6 +412,11 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
           _position = 1;
         }else if (map['data'] == '审核通过') {
           _passPdfInfoGet();
+          _checkInResult = '您的申请已通过！';
+          _position = 2;
+        }else if (map['data'] == '已报到') {
+          _checkInResult = '您已报到！';
+          _passPdfInfoGet();
           _position = 2;
         }
         setState(() {});
@@ -483,6 +469,9 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
 
   //提交申请
   void _submitFunc() async {
+    setState(() {
+      _loading = true;
+    });
     //检测行程列表
     for (int i = 1; i <= transitIndexList.length; i++) {
       if (qishiController[i].text.isEmpty ||
@@ -491,8 +480,6 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
           zuoweiController[i].text.isEmpty ||
           mubiaoController[i].text.isEmpty) {
         showToast(context, '请完善您的信息(X_X)');
-        print(qishiController[0].text);
-        return;
       }
     }
 
@@ -500,6 +487,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
             juzhuController.text.isEmpty || //详细居住地
             jinjirenController.text.isEmpty || //紧急联系人
             jinjidianController.text.isEmpty || //紧急联系人电话
+            shuoming1Controller.text.isEmpty||//其他需要说明的内容
             //申请内容
             daoxiao.isEmpty || //到校日期
             chufaResult == null || //出发地
@@ -516,7 +504,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
     } else {
       //基本信息
       subData['stuNum'] = Global.id; //学号
-      subData['address'] = //居住地
+      subData['address1'] = //居住地
           "${juzhuResult.provinceName}-${juzhuResult.cityName}-${juzhuResult.areaName}-${juzhuController.text}";
       subData['emergencyCallee'] = jinjirenController.text; //紧急联系人
       subData['emergencyPhone'] = jinjidianController.text; //紧急联系人方式
@@ -525,18 +513,21 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
       subData['loc'] = //出发地
           "${chufaResult.provinceName}-${chufaResult.cityName}-${chufaResult.areaName}";
       subData['reason'] = //其他需要说明的内容
-          shuoming1Controller.text.isEmpty ? '' : shuoming1Controller.text;
+          shuoming1Controller.text;
       //个人行程
-      subData['note'] = "本人计划 ${jihua} ,";
+      subData['note'] = "${jihua}";
       for (int i = 1; i <= transitIndexList.length; i++) {
+        subData['transport'] += "${chuxing[i-1]}/";//出行方式
+        subData['seat'] += "${zuoweiController[i].text}/";//座位号
+        subData['car'] += "${chepaiController[i].text}/";//车牌号/车次
         subData['note'] +=
-            "\n(路线${i}) 由 ${qishiController[i].text} 乘坐 ${chuxing[i - 1]} "
-            "到 ${mubiaoController[i].text}。"
-            "车牌号/车次：${chepaiController[i].text}，"
-            "座位号：${zuoweiController[i].text}。";
+            "由${qishiController[i].text}乘坐${chuxing[i - 1]}"
+            "到${mubiaoController[i].text},"
+            "车牌号/车次是${chepaiController[i].text}，"
+            "座位号是${zuoweiController[i].text}。";
       }
       subData['note'] +=
-          "\n于 ${dixuTime} 抵徐，抵徐地点：${dixuAddress}，陪同人员：${peitongController.text}";
+          "于${dixuTime}抵徐，抵徐地点：${dixuAddress}，陪同人员：${peitongController.text}";
       subData['hour'] = dixuHour; //抵徐时间（只取小时）
       subData['pickupLoc'] = dixuAddress; //抵徐地点
       subData['company'] = peitongController.text; //陪同人员
@@ -545,6 +536,8 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
       subData['q3'] = questions['q3'] == true ? 1 : 0;
       subData['q4'] = questions['q4'] == true ? 1 : 0;
 
+      subData['departure'] = qishiController[1].text;//第一个起始站点
+      subData['destination'] = mubiaoController[transitIndexList.length].text;//最后一个目标站点
       subData['guardian'] = jianhuController.text;
       //发送网络请求
       Response res;
@@ -573,6 +566,9 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
         showToast(context, '提交失败');
       }
     }
+    setState(() {
+      _loading = false;
+    });
   }
 
   //删除个人返校数据
@@ -623,30 +619,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
     }
   }
 
-  Map subData = {
-    'stuNum': Global.id, //学号
 
-    'address': '', //居住地
-    'emergencyCallee': '', //紧急联系人
-    'emergencyPhone': '', //紧急联系电话
-    //申请内容
-    'date': '', //到校日期
-    'loc': '', //出发地
-    'reason': '', //请描述必要的返校原因
-    //个人行程
-    'note': '', //个人行程
-    'hour': 23, //抵徐时间(小时)
-    'pickupLoc': '', //抵徐地点
-
-    'company': '', //陪同人员
-    'pass': 0, //是否批准  （0没批 1拒绝 2批准）
-    'q1': 0, //近两周是否接触过有发热或呼吸道感染症状的人员(0没接触 1接触过)
-    'q2': 0, //近两周是否有境外旅居史(0没接触 1接触过)
-    'q3': 0, //近两周是否接触过境外归国人员  (0没接触 1接触过)
-    'q4': 0, //近两周是否有发热、干咳、乏力等症状(0没接触 1接触过)
-    'reviewedBy': '', //审核人
-    'guardian': '', //家长监护人姓名
-  };
 
   //重新提交信息
   //长篇文章
@@ -656,7 +629,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: Text(
         text,
-        style: TextStyle(fontSize: 15, color: color, fontWeight: fontWeight),
+        style: TextStyle(fontSize: fontSizeMini35, color: color, fontWeight: fontWeight),
       ),
     );
   }
@@ -689,7 +662,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
         children: <Widget>[
 //            MyTitleStep('第一步：完善基本信息'),
           _columnCard(children: [
-            _rowFlexButtonWithContent(
+            MyRowFlexButtonWithContent(
                 '居住地',
                 juzhuResult == null
                     ? "点击选择居住地"
@@ -704,10 +677,10 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
             _rowInputItem('紧急联系人电话', jinjidianController),
           ]),
           _columnCard(children: [
-            _rowFlexButtonWithContent(
+            MyRowFlexButtonWithContent(
                 '到校日期', daoxiao == null ? "点击选择到校日期" : daoxiao,
                 onTap: () => _daoxiaoDataPicker()),
-            _rowFlexButtonWithContent(
+            MyRowFlexButtonWithContent(
                 '出发地',
                 chufaResult == null
                     ? "点击选择出发地"
@@ -727,7 +700,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
           ]),
           //个人行程
           _columnCard(children: [
-            _rowFlexButtonWithContent(
+            MyRowFlexButtonWithContent(
                 '计划出行时间', jihua == null ? "点击选择计划出行具体时间" : jihua,
                 onTap: () => _jihuaDataPicker()),
             //中转
@@ -745,7 +718,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
                         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                         child: Text(
                           "路线 - ${index}",
-                          style: TextStyle(fontSize: 18, color: Colors.black38),
+                          style: TextStyle(fontSize: fontSizeNormal40, color: Colors.black38),
                         ),
                       ),
                       _rowInputItem('起始站点', qishiController[index],
@@ -766,22 +739,22 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    flex: 2,
-                    child: MyLittleButton('+增加中转行程',
-                        color: mainColor.withAlpha(230),
-                        onTap: () => _addTransitItem()),
+                    child: MyLittleButton('删除', onTap: () => _delTransitItem()),
                   ),
                   SizedBox(
                     width: 10,
                   ),
                   Expanded(
-                    child: MyLittleButton('删除', onTap: () => _delTransitItem()),
-                  )
+                    flex: 2,
+                    child: MyLittleButton('+增加中转行程',
+                        color: mainColor.withAlpha(230),
+                        onTap: () => _addTransitItem()),
+                  ),
                 ],
               ),
             ),
             Divider(),
-            _rowFlexButtonWithContent(
+            MyRowFlexButtonWithContent(
                 '抵徐时间', dixuTime == null ? "点击选择抵达徐州的时间" : dixuTime,
                 onTap: () => _dixuDataPicker()),
             _dixuChose("抵徐地点", zhandian),
@@ -806,7 +779,12 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
             _rowInputItem('家长（监护人）签字', jianhuController),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-              child: MyFlatButton('提交申请', onTap: () => _submitFunc()),
+              child: Center(
+                child: _loading==false?MyFlatButton('提交申请', onTap: () => _submitFunc()):Container(
+                  height: ScreenUtil().setWidth(120),
+                  child: loadingAnimationTwoCircles,
+                ),
+              ),
             )
           ])
         ],
@@ -835,7 +813,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
                   ),
                   Text(
                     "等待管理员审核......",
-                    style: TextStyle(fontSize: 17),
+                    style: TextStyle(fontSize: fontSizeNormal40),
                   )
                 ],
               ):Row(
@@ -846,7 +824,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
                   ),
                   Text(
                     "审核未通过，请重新提交",
-                    style: TextStyle(fontSize: 17),
+                    style: TextStyle(fontSize: fontSizeNormal40),
                   )
                 ],
               ),
@@ -864,8 +842,7 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
           child: loadingAnimationWave,
         )
       : Container(
-          height: 1200,
-          child: Column(
+          child: Wrap(
             children: <Widget>[
               //您的申请已通过！
               Container(
@@ -881,170 +858,165 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
                 padding: EdgeInsets.all(20),
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.done),
+                    Icon(Icons.done,size: fontSizeNormal40,),
                     SizedBox(
                       width: 20,
                     ),
                     Text(
-                      "您的申请已通过！",
-                      style: TextStyle(fontSize: 17),
+                      _checkInResult.toString(),//您已报到/您的申请已通过
+                      style: TextStyle(fontSize: fontSizeNormal40),
                     )
                   ],
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              //
-              Expanded(
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                        boxShadow: [
-                          BoxShadow(
-                              color: shadowColor.withAlpha(10),
-                              spreadRadius: 0.1,
-                              blurRadius: 10)
-                        ]),
-                    child: Stack(
-                      children: <Widget>[
-                        Positioned.fill(
-                          child: Image.asset(
-                            'images/cumtwater.png',
-                            repeat: ImageRepeat.repeat,
-                            cacheHeight: 100,
+              Container(height: 20,),
+              Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                            color: shadowColor.withAlpha(10),
+                            spreadRadius: 0.1,
+                            blurRadius: 10)
+                      ]),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: Image.asset(
+                          'images/cumtwater.png',
+                          repeat: ImageRepeat.repeat,
+                          cacheHeight: 100,
+                        ),
+                      ),
+                      Positioned(
+                        child: Padding(
+                          padding: EdgeInsets.all(fontSizeNormal40),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    "返校通知书",
+                                    style: TextStyle(
+                                        fontSize: fontSizeNormalTitle45,
+                                        letterSpacing: 5,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                Global.passPdfInfo.data.name + '  同学：',
+                                style: TextStyle(
+                                    fontSize: fontSizeMini35,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              _article(
+                                  '        请你持学生本人校园卡/学生证以及本通知书按规定时间和地点返校，办理有关返校手续。'),
+                              _article('入校时间：' + Global.passPdfInfo.data.date,
+                                  fontWeight: FontWeight.bold),
+                              _article('抵徐地点：' + Global.passPdfInfo.data.loc,
+                                  fontWeight: FontWeight.bold),
+                              _article(
+                                  '审核人：' + Global.passPdfInfo.data.reviewedBy,
+                                  fontWeight: FontWeight.bold),
+                              _article(
+                                  '        温馨提示：返校途中注意人身安全，全程做好防护措施。返校当日学校在火车站、高铁站设有接站点，'
+                                      '请主动出示个人相关材料，配合做好体温监测等程序。到校后，遵守国家法律法规和学校规章制度，做好每日晨检、午检等，'
+                                      '配合学校做好疫情防控工作。'),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                '本人承诺：',
+                                style: TextStyle(
+                                    fontSize: fontSizeMini35,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              _article(
+                                  '        本人已经知晓学校制定的有关疫情防控工作内容。本人现在居住地降为低风险地区已满一个月，符合出行条件。'
+                                      '本人目前身体健康，无发烧、咳嗽等症状。本人目前不在疫情防控中、高风险地区，14天内也未在疫情防控中、高风险地区停留旅居，'
+                                      '14天内未与从疫情防控中、高风险地区返乡人员密切接触，14天内未有境外旅居史和与境外归国人员密切接触史。'
+                                      '没有向学校隐瞒其他内容。\n       如弄虚作假或隐瞒不报等带来的后果由本人承担。'),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    "学生签名：",
+                                    style: TextStyle(
+                                        fontSize: fontSizeMini35,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(Global.passPdfInfo.data.name,
+                                      style: GoogleFonts.maShanZheng(
+                                          fontSize: ScreenUtil().setSp(90))),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    "家长(监护人)签名：",
+                                    style: TextStyle(
+                                        fontSize: fontSizeMini35,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                      Global.passPdfInfo.data.emergencyCallee,
+                                      style: GoogleFonts.maShanZheng(
+                                          fontSize: ScreenUtil().setSp(90))),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  _article('中国矿业大学',
+                                      fontWeight: FontWeight.bold)
+                                ],
+                              ),
+//                                Expanded(
+//                                  child: Container(
+//                                    alignment: Alignment.bottomLeft,
+//                                    child: Opacity(
+//                                      opacity: 0.3,
+//                                      child: Column(
+//                                        mainAxisAlignment:
+//                                            MainAxisAlignment.end,
+//                                        children: <Widget>[
+//                                          Text(
+//                                            "黑天鹅互联网工作室",
+//                                            style: TextStyle(letterSpacing: 2),
+//                                          ),
+//                                          SizedBox(
+//                                            height: 2,
+//                                          ),
+//                                          Image.asset(
+//                                            'images/batswan.jpg',
+//                                            height: 20,
+//                                          )
+//                                        ],
+//                                      ),
+//                                    ),
+//                                  ),
+//                                )
+                            ],
                           ),
                         ),
-                        Positioned(
-                          child: Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "返校通知书",
-                                      style: TextStyle(
-                                          fontSize: 22,
-                                          letterSpacing: 5,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  Global.passPdfInfo.data.name + '  同学：',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                _article(
-                                    '        请你持学生本人校园卡/学生证以及本通知书按规定时间和地点返校，办理有关返校手续。'),
-                                _article('入校时间：' + Global.passPdfInfo.data.date,
-                                    fontWeight: FontWeight.bold),
-                                _article('抵徐地点：' + Global.passPdfInfo.data.loc,
-                                    fontWeight: FontWeight.bold),
-                                _article(
-                                    '审核人：' + Global.passPdfInfo.data.reviewedBy,
-                                    fontWeight: FontWeight.bold),
-                                _article(
-                                    '        温馨提示：返校途中注意人身安全，全程做好防护措施。返校当日学校在火车站、高铁站设有接站点，'
-                                    '请主动出示个人相关材料，配合做好体温监测等程序。到校后，遵守国家法律法规和学校规章制度，做好每日晨检、午检等，'
-                                    '配合学校做好疫情防控工作。'),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  '本人承诺：',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                _article(
-                                    '        本人已经知晓学校制定的有关疫情防控工作内容。本人现在居住地降为低风险地区已满一个月，符合出行条件。'
-                                    '本人目前身体健康，无发烧、咳嗽等症状。本人目前不在疫情防控中、高风险地区，14天内也未在疫情防控中、高风险地区停留旅居，'
-                                    '14天内未与从疫情防控中、高风险地区返乡人员密切接触，14天内未有境外旅居史和与境外归国人员密切接触史。'
-                                    '没有向学校隐瞒其他内容。\n       如弄虚作假或隐瞒不报等带来的后果由本人承担。'),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      "学生签名：",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(Global.passPdfInfo.data.name,
-                                        style: GoogleFonts.maShanZheng(
-                                            fontSize: 25)),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      "家长(监护人)签名：",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                        Global.passPdfInfo.data.emergencyCallee,
-                                        style: GoogleFonts.maShanZheng(
-                                            fontSize: 25)),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    _article('中国矿业大学',
-                                        fontWeight: FontWeight.bold)
-                                  ],
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Opacity(
-                                      opacity: 0.3,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Text(
-                                            "黑天鹅互联网工作室",
-                                            style: TextStyle(letterSpacing: 2),
-                                          ),
-                                          SizedBox(
-                                            height: 2,
-                                          ),
-                                          Image.asset(
-                                            'images/batswan.jpg',
-                                            height: 20,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    )),
-              )
+                      )
+                    ],
+                  ))
             ],
           ),
         );
@@ -1070,16 +1042,16 @@ class _RuxiaoPageState extends State<RuxiaoPage> {
                       steps: [
                         Step(
                           isActive: _position == 0 ? true : false,
-                          title: Text("提交申请"),
+                          title: Text("提交申请",style: TextStyle(fontSize: fontSizeMini35),),
                           content: Container(child: firstStep1()),
                         ),
                         Step(
                             isActive: _position == 1 ? true : false,
-                            title: Text("等待审核"),
+                            title: Text("等待审核",style: TextStyle(fontSize: fontSizeMini35)),
                             content: firstStep2()),
                         Step(
                             isActive: _position == 2 ? true : false,
-                            title: Text("审核通过"),
+                            title: Text("审核通过",style: TextStyle(fontSize: fontSizeMini35)),
                             content: firstStep3()),
                       ]),
                 ),

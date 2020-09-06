@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyhub/flutter_easy_hub.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttericon/entypo_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
@@ -48,16 +49,16 @@ class _MyselfPageState extends State<MyselfPage>
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             content: Text(
               '你确定要退出登录吗?',
-              style: TextStyle(color: mainTextColor),
+              style: TextStyle(color: mainTextColor,fontSize: fontSizeNormal40),
             ),
             actions: <Widget>[
               FlatButton(
                 onPressed: () => _signOutFunc(),
-                child: Text('确定'),
+                child: Text('确定',style: TextStyle(fontSize: fontSizeNormal40),),
               ),
               FlatButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: Text('取消'),
+                child: Text('取消',style: TextStyle(fontSize: fontSizeNormal40)),
               ),
             ],
           ),
@@ -67,11 +68,6 @@ class _MyselfPageState extends State<MyselfPage>
 
 
 
-  @override
-  void initState() {
-    build(context);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +81,7 @@ class _MyselfPageState extends State<MyselfPage>
           icon: Icon(
             Entypo.logout,
             color: mainTextColor,
+            size: ScreenUtil().setSp(60),
           ),
         )
       ]),
@@ -102,7 +99,7 @@ class _MyselfPageState extends State<MyselfPage>
                     : toTeacherInfoPage(context)),
             MyTitle("设置"),
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+              padding: EdgeInsets.all(ScreenUtil().setWidth(50)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_picker/PickerLocalizationsDelegate.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:package_info/package_info.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/NetRequest/app_upgrade.dart';
@@ -44,6 +45,7 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+
   //获取当前App版本
   void _getAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -79,34 +81,26 @@ class _StartPageState extends State<StartPage> {
     }
   }
 
+
   @override
-  void didChangeDependencies() {
-    build(context);
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     _getAppVersion();
     _countDown();
   }
 
+
   @override
   Widget build(BuildContext context) {
 //    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    ScreenUtil.init(context);
     //启动时获取设备大小
-    print('@build');
     deviceHeight = MediaQuery.of(context).size.height;
     deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: <Widget>[
-          Positioned.fill(
-            child: Image.asset(
-              'images/login_background.png',
-              fit: BoxFit.fill,
-            ),
-          ),
-        ],
-      ),
+      body: Container(),
     );
   }
 }

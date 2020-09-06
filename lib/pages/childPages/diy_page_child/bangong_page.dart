@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/UI_Widget/MyUiWidgets.dart';
 import 'package:party_committee/UI_Widget/appBar.dart';
@@ -23,9 +24,9 @@ class _BangongPageState extends State<BangongPage>
     with SingleTickerProviderStateMixin {
   TabController mController; //Tab控制器
 
-  double _titleFirstFontSize = 15;
-  double _titleSecondFontSize = 14;
-  double _contentRowFontSize = 13;
+  double _titleFirstFontSize = fontSizeNormal40;
+  double _titleSecondFontSize = fontSizeMini35;
+  double _contentRowFontSize = fontSizeMini35;
   //销毁控制器
   @override
   void dispose() {
@@ -48,7 +49,7 @@ class _BangongPageState extends State<BangongPage>
     //标题行子项
     Widget _titleRowItem(String title) {
       return Container(
-        height: 40,
+        height: ScreenUtil().setWidth(100),
         child: Center(
           child: Text(
             title,
@@ -63,8 +64,7 @@ class _BangongPageState extends State<BangongPage>
     //正文行子项
     Widget _contentRowItem(String title) {
       return Container(
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-          height: deviceHeight * 0.05,
+          padding: EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(25), 0, ScreenUtil().setWidth(25)),
           child: Center(
             child: Text(
               title,
@@ -109,7 +109,7 @@ class _BangongPageState extends State<BangongPage>
                           children: [
                             Container(),
                             Container(
-                              height: 35,
+                              padding: EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(20), 0, ScreenUtil().setWidth(20)),
                               child: Center(
                                 child: Text(
                                   item['depa'],
@@ -186,7 +186,7 @@ class _BangongPageState extends State<BangongPage>
                           BoxDecoration(color: mainColor.withAlpha(150)),
                           children: [
                             Container(
-                              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                              padding: EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(20), 0, ScreenUtil().setWidth(20)),
                               child: Center(
                                 child: Text(
                                   item['depa'],
@@ -220,10 +220,10 @@ class _BangongPageState extends State<BangongPage>
             controller: mController,
             indicatorColor:mainColor,
             indicatorWeight: 3,
-            labelPadding: EdgeInsets.all(5),
+            labelPadding: EdgeInsets.all(ScreenUtil().setWidth(5)),
             indicatorPadding: EdgeInsets.all(3),
             labelColor: Colors.black,
-            labelStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+            labelStyle: TextStyle(fontSize: fontSizeNormal40,fontWeight: FontWeight.bold),
             indicatorSize: TabBarIndicatorSize.label,
             tabs: [
               Tab(

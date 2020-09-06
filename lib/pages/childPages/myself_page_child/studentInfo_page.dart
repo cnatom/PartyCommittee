@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/NetClass/global.dart';
 import 'package:party_committee/NetRequest/user_info_get.dart';
@@ -47,7 +48,7 @@ class _StudentInfoPageState extends State<StudentInfoPage> {
           slivers: <Widget>[
             stuInfoSliverAppBar(
                 context,
-                photo: 'images/test.png',
+                image: Image.asset('images/test.png',height: ScreenUtil().setWidth(180),width: ScreenUtil().setWidth(180),fit: BoxFit.fill,),
                 name: Global.studentInfo.data.name,
                 id: Global.studentInfo.data.id,
                 department: Global.studentInfo.data.department,

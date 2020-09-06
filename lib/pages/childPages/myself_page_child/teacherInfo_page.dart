@@ -25,7 +25,7 @@ class TeacherInfoPage extends StatefulWidget {
 
 class _TeacherInfoPageState extends State<TeacherInfoPage> {
   Future<Null> _loadingUserInfo() async {
-    if (Global.studentInfo.data == null || Global.teacherInfo.data == null) {
+    if (Global.teacherInfo.data == null) {
       final token = (await SharedPreferences.getInstance()).getString('token');
       await userInfoGet(token);
       setState(() {

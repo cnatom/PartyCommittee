@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 //色彩管理
 final Color mainColor =  Color.fromARGB(255, 39,133,255).withAlpha(255);
 final Color mainTextColor = Color.fromARGB(255, 12,21,60);
 final Color shadowColor = Colors.black45;
 final Color searchBarColor = Color.fromARGB(255, 241,241,241);
-final double fontSizeTitle = 17;
-final double fontSizeContent = 16;
-final double fontSizeAppBar = 18;
+final double fontSize15 = ScreenUtil().setSp(15);
+final double fontSizeMainAppBar = ScreenUtil().setSp(60);
+final double fontSizeAppBar = ScreenUtil().setSp(45);
+final double fontSizeNormalTitle45 = ScreenUtil().setSp(45);
+final double fontSizeMini35 = ScreenUtil().setSp(35);
+final double fontSizeNormal40 = ScreenUtil().setSp(40);
 final List iconButtonColor = [
   Color.fromARGB(255, 255,81,29),
   Color.fromARGB(255, 39,133,255),

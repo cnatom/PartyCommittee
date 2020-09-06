@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/NetClass/global.dart';
 import 'package:party_committee/NetClass/news_info.dart';
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage>
         height: deviceWidth * 0.9 * 0.4115,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: swiperWidget(),
+          child: swiperWidget2(),
         ),
       ),
     );
@@ -120,8 +121,8 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: MyMainAppBar('主页'),
         backgroundColor: pageBackgroundColor,
-        appBar: MyMainAppBar("主页"),
         body: RefreshIndicator(
           onRefresh: _refreshNews,
           child: SingleChildScrollView(
@@ -130,9 +131,13 @@ class _HomePageState extends State<HomePage>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 10),
-                Center(
-                  child: _swiperArea(),
-                ), //轮播图
+//                Center(
+//                  child: _swiperArea(),
+//                ), //轮播图
+                Container(
+                  height: deviceWidth * 0.4,
+                  child: swiperWidget2(),
+                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -150,7 +155,7 @@ class _HomePageState extends State<HomePage>
                 SizedBox(
                   height: 20,
                 ),
-                MyTitle("校园资讯"),
+                MyTitle("视点新闻"),
                 SizedBox(height: 10),
                 Global.newsInfo.data != null
                     ? schoolNewsArea()

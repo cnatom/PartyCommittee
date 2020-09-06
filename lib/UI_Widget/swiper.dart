@@ -5,10 +5,10 @@ import 'package:flutter_easyhub/tool/Util.dart';
 import 'package:flutter_easyhub/tool/config.dart';
 import 'package:flutter_page_indicator/flutter_page_indicator.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/UI_Widget/loading.dart';
 import '../NetClass/global.dart';
 import 'colors.dart';
-
 //轮播图组件
 Widget swiperWidget() {
   return Swiper(
@@ -30,6 +30,33 @@ Widget swiperWidget() {
     scrollDirection: Axis.horizontal,
     autoplay: true,
   );
+}
+
+Widget swiperWidget2(){
+  return new Swiper(
+    itemBuilder: (BuildContext context, int index) {
+      return Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        child: Global.swiperInfo.data!=null?Container(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(
+              Global.swiperInfo.data[index].imgCompressedUrl,
+              fit: BoxFit.fill,
+            ),
+          ),
+        ):Center(
+          child: loadingAnimationIOS(),
+        ),
+      );
+    },
+    itemCount: 6,
+    viewportFraction: 0.9,
+    scale: 0.8,
+    autoplay: true,
+  )
+  ;
 }
 
 //轮播图Builder

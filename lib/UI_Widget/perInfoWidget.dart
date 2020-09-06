@@ -3,14 +3,16 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:party_committee/DeviceData/device_data.dart';
+import 'package:party_committee/UI_Widget/colors.dart';
 
 TextStyle _itemTitleStyle =
-    TextStyle(fontSize: 15, color: Color.fromARGB(255, 139, 143, 155));
-TextStyle _itemContentStyle = TextStyle(fontSize: 15);
+    TextStyle(fontSize: fontSizeMini35, color: Color.fromARGB(255, 139, 143, 155));
+TextStyle _itemContentStyle = TextStyle(fontSize: fontSizeMini35);
 Icon _rightArrowIcon = Icon(
   Icons.chevron_right,
-  color: Colors.black.withAlpha(150),
+  color: Colors.black38,
 );
 
 //老师个人资料页顶端信息
@@ -21,10 +23,7 @@ Widget teacherInfoSliverAppBar(BuildContext context,
     SliverAppBar(
       leading: IconButton(
         onPressed: () => Navigator.of(context).pop(),
-        icon: Icon(
-          Icons.arrow_back_ios,
-          size: 18,
-        ),
+        icon: Icon(Icons.arrow_back_ios,size: fontSizeAppBar,),
       ),
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
@@ -48,10 +47,10 @@ Widget teacherInfoSliverAppBar(BuildContext context,
               ),
             ),
             Positioned(
-              bottom: 40,
-              left: 40,
+              bottom: ScreenUtil().setWidth(90),
+              left: ScreenUtil().setWidth(90),
               child: Container(
-                height: 85,
+                height: ScreenUtil().setWidth(180),
                 child: Row(
                   children: <Widget>[
                     Hero(
@@ -60,14 +59,14 @@ Widget teacherInfoSliverAppBar(BuildContext context,
                         borderRadius: BorderRadius.circular(10),
                         child: Image.asset(
                           photo,
-                          height: 80,
-                          width: 80,
+                          height: ScreenUtil().setWidth(180),
+                          width: ScreenUtil().setWidth(180),
                           fit: BoxFit.fill,
                         ),
                       ),
                     ),
                     SizedBox(
-                      width: 30,
+                      width: ScreenUtil().setWidth(50),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -78,20 +77,17 @@ Widget teacherInfoSliverAppBar(BuildContext context,
                             Text(
                               name,
                               style: TextStyle(
-                                  fontSize: 21,
+                                  fontSize: ScreenUtil().setSp(50),
                                   color: Colors.white,
                                   letterSpacing: 2),
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
-
                           ],
                         ),
+
                         Text(
                           "工号：$id ",
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: fontSizeNormal40,
                               color: Colors.white.withOpacity(0.7)),
                         )
                       ],
@@ -103,16 +99,16 @@ Widget teacherInfoSliverAppBar(BuildContext context,
           ],
         ),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: pageBackgroundColor,
 //        primary: true,
-      expandedHeight: 200,
+      expandedHeight: ScreenUtil().setWidth(450),
 //        floating: true,
 //        pinned: true,
 //        snap: true,
     );
 //学生个人资料页顶端信息
 Widget stuInfoSliverAppBar(BuildContext context,
-    {String photo='',
+    {Widget image,
     String name='',
     String id='',
     String department='',
@@ -123,7 +119,7 @@ Widget stuInfoSliverAppBar(BuildContext context,
   return SliverAppBar(
     leading: IconButton(
       onPressed: () => Navigator.of(context).pop(),
-      icon: Icon(Icons.arrow_back_ios,size: 18,),
+      icon: Icon(Icons.arrow_back_ios,size: fontSizeAppBar,),
     ),
     flexibleSpace: FlexibleSpaceBar(
       background: Stack(
@@ -147,26 +143,19 @@ Widget stuInfoSliverAppBar(BuildContext context,
             ),
           ),
           Positioned(
-            bottom: 40,
-            left: 40,
+            bottom: ScreenUtil().setWidth(90),
+            left: ScreenUtil().setWidth(90),
             child: Container(
-              height: 85,
               child: Row(
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      photo,
-                      height: 80,
-                      width: 80,
-                      fit: BoxFit.fill,
-                    ),
+                    child: image,
                   ),
                   SizedBox(
-                    width: 30,
+                    width: ScreenUtil().setWidth(50),
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
@@ -174,7 +163,7 @@ Widget stuInfoSliverAppBar(BuildContext context,
                           Text(
                             name,
                             style: TextStyle(
-                                fontSize: 21,
+                                fontSize: ScreenUtil().setSp(50),
                                 color: Colors.white,
                                 letterSpacing: 2),
                           ),
@@ -184,11 +173,12 @@ Widget stuInfoSliverAppBar(BuildContext context,
                           Text(
                             "( $id )",
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: fontSizeNormal40,
                                 color: Colors.white.withOpacity(0.7)),
                           )
                         ],
                       ),
+                      SizedBox(height: ScreenUtil().setWidth(20),),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -196,14 +186,14 @@ Widget stuInfoSliverAppBar(BuildContext context,
                             department,
                             maxLines: 1,
                             style: TextStyle(
-                                fontSize: 15,
+                                fontSize: fontSizeMini35,
                                 color: Colors.white,
                                 letterSpacing: 2),
                           ),
                           Text(
                             "$sex  $nation  $grade级$eduBackground",
                             style: TextStyle(
-                                fontSize: 15,
+                                fontSize: fontSizeMini35,
                                 color: Colors.white,
                                 letterSpacing: 2),
                           )
@@ -218,9 +208,9 @@ Widget stuInfoSliverAppBar(BuildContext context,
         ],
       ),
     ),
-    backgroundColor: Colors.black,
+    backgroundColor: pageBackgroundColor,
 //        primary: true,
-    expandedHeight: 200,
+    expandedHeight: ScreenUtil().setWidth(450),
 //        floating: true,
 //        pinned: true,
 //        snap: true,
@@ -244,7 +234,7 @@ Widget infoItem(String title, String content) {
         ),
         Text(
           content,
-          maxLines: 3,
+          maxLines: 10,
           style: _itemContentStyle,
         ),
       ],
@@ -271,7 +261,7 @@ Widget infoCardArea(String title, {List data}) {
         children: <Widget>[
           Text(
             title,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: fontSizeNormalTitle45, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -300,13 +290,7 @@ Widget infoCardArea(String title, {List data}) {
   //卡片数据布局
   return Container(
     padding: EdgeInsets.fromLTRB(deviceWidth * 0.05, 0, 0, 0),
-    decoration: BoxDecoration(boxShadow: [
-      BoxShadow(
-        blurRadius: 15, //阴影范围
-        spreadRadius: 1, //阴影浓度
-        color: Colors.black.withAlpha(15),
-      ),
-    ], borderRadius: BorderRadius.circular(20), color: Colors.white),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white),
     width: deviceWidth * 0.9,
     //信息列表
     child: Column(
@@ -327,28 +311,26 @@ Widget recButton(
     padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
     child: Material(
       color: Colors.white,
-      elevation: 10,
-      shadowColor: Colors.black.withAlpha(30),
       borderRadius: BorderRadius.circular(20),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: onTap,
         child: Container(
-          padding: EdgeInsets.fromLTRB(0, 20, 0, 15),
-          height: 110,
-          width: deviceWidth * 0.18,
+          padding: EdgeInsets.fromLTRB(0, fontSizeMini35*1.3, 0, fontSizeMini35*1.3),
+          width: fontSizeMini35*5.5,
           alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Image.asset(
                 imageResourceId,
-                width: deviceWidth * 0.12,
+                width: fontSizeMini35*2.5,
               ),
+              SizedBox(height: fontSizeMini35/1.5,),
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: fontSizeMini35,
                 ),
               )
             ],
@@ -376,6 +358,7 @@ Widget rowRecButtonList(String title,
       ),
       Container(
         width: deviceWidth * 0.92,
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
@@ -393,8 +376,6 @@ Widget rowRecButtonList(String title,
 Widget rowButtonWithContent(String title, String content,
     {GestureTapCallback onTap}) {
   return Material(
-    elevation: 5,
-    shadowColor: Colors.black.withAlpha(50),
     color: Colors.white,
     borderRadius: BorderRadius.circular(15),
     child: InkWell(
@@ -434,8 +415,6 @@ Widget rowButtonWithContent(String title, String content,
 //长条式卡片按钮(无内容)
 Widget rowButtonWithoutContent(String title, {GestureTapCallback onTap}) {
   return Material(
-    elevation: 5,
-    shadowColor: Colors.black.withAlpha(50),
     color: Colors.white,
     borderRadius: BorderRadius.circular(15),
     child: InkWell(
@@ -450,7 +429,7 @@ Widget rowButtonWithoutContent(String title, {GestureTapCallback onTap}) {
           children: <Widget>[
             Text(
               title,
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: fontSizeNormal40),
             ),
             _rightArrowIcon
           ],

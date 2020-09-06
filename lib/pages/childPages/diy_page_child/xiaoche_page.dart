@@ -22,7 +22,6 @@ class XiaochePage extends StatelessWidget {
       child: Scaffold(
         appBar: MyAppBarWhite(context, "校车"),
         body: Container(
-            color: Colors.white,
             child: PhotoView(
               imageProvider: AssetImage("images/xiaoche_child.png"),
             )

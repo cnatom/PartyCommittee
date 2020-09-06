@@ -16,6 +16,8 @@ Widget loadingAnimationTwoCircles=Tool.getIndicatorWidget(
     circleValueColor:
     AlwaysStoppedAnimation(mainColor));
 
+Widget loadingAnimationIOS()=>CupertinoActivityIndicator();
+
 Widget loadingAnimationArticle()=>Container(
     padding: EdgeInsets.all(5),
     child: Card(
