@@ -220,6 +220,7 @@ class _XueshengPageState extends State<XueshengPage> {
               FlatButton(
                 onPressed: () {
                   if(_curPage>1){
+                    _scrollController.jumpTo(_scrollController.position.minScrollExtent);
                     _searchFunc(--_curPage);
                   }else{
                     showToast(context, '已经到首页了(~_~)');
@@ -232,6 +233,7 @@ class _XueshengPageState extends State<XueshengPage> {
               FlatButton(
                 onPressed: () {
                   if(_curPage<int.parse(Global.searchStuInfo.data.pages)){
+                    _scrollController.jumpTo(_scrollController.position.minScrollExtent);
                     _searchFunc(++_curPage);
                   }else{
                     showToast(context, '已经到尾页了(O_O)');

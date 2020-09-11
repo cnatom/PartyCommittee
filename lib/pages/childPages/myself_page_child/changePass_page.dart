@@ -98,7 +98,10 @@ class _ChangePassPageState extends State<ChangePassPage> {
               _inputArea('新密码：', '新密码至少4位',controller: newPasswordController),
               SizedBox(height: ScreenUtil().setWidth(200),),
               Center(
-                child: MyFlatButtonWithoutGradient('确定',onTap: ()=>_determineFunc()),
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(deviceWidth/3, 0, deviceWidth/3, 0),
+                  child: MyFlatButtonWithoutGradient('确定',onTap: ()=>_determineFunc()),
+                ),
               )
             ]),
       ),

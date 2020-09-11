@@ -28,9 +28,11 @@ class Global{
   static SearchStudentInfo searchStudentInfo = new SearchStudentInfo();//查询学生的详细信息
 //  static SearchStudentParentsInfo searchStudentParentsInfo = new SearchStudentParentsInfo();//查询学生父母的详细信息
   static QingjiaResultInfo qingjiaResultInfo = new QingjiaResultInfo();//查看请假记录
-  static QingjiaResultTeaInfo qingjiaResultTeaInfo0 = new QingjiaResultTeaInfo();//请假待审核
-  static QingjiaResultTeaInfo qingjiaResultTeaInfo1 = new QingjiaResultTeaInfo();//请假已批准
-  static QingjiaResultTeaInfo qingjiaResultTeaInfo2 = new QingjiaResultTeaInfo();//请假已拒绝
+  static List<QingjiaResultTeaInfo> qingjiaresultTeaInfoList = [
+    new QingjiaResultTeaInfo(),//请假待审核
+    new QingjiaResultTeaInfo(),//请假已批准
+    new QingjiaResultTeaInfo(),//请假已拒绝
+  ];
 
   static int admin;//判断当前用户权限 0学生 1老师 2领导
   static String name;

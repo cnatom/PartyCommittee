@@ -60,24 +60,23 @@ class _StudentInfoPageState extends State<StudentInfoPage> {
 
             SliverList(
               delegate: SliverChildListDelegate(<Widget>[
-                Column(
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  runSpacing: fontSizeMini35,
                   children: <Widget>[
-                    SizedBox(height: 20,),
+                    Container(),
                     infoCardArea("基本信息",data: [
                       {"电话": Global.studentInfo.data.phone, "邮箱": Global.studentInfo.data.email},
                       {'身份证': Global.studentInfo.data.idCard, "姓名拼音": Global.studentInfo.data.pinyin},
                       {'毕业学校': Global.studentInfo.data.graduatedSchool, "政治面貌": Global.studentInfo.data.politicalStatus},
                       {"生源地": Global.studentInfo.data.originLocation, '家庭住址': Global.studentInfo.data.address},
                     ]),
-                    SizedBox(height: 20,),
                     infoCardArea("在校信息",data: [
                       {"班级": Global.studentInfo.data.classes, "寝室": Global.studentInfo.data.dormitory},
                       {"辅导员": Global.studentInfo.data.counsellorName,"紧急联系人": Global.studentInfo.data.emergencyContact},
                       {'辅导员电话':Global.studentInfo.data.counsellorPhone,"紧急联系人电话": Global.studentInfo.data.emergencyPhone},
                     ]),
-                    SizedBox(height: 20,),
                     rowButtonWithContent("经济援助", Global.studentInfo.data.aid,onTap: (){}),
-                    SizedBox(height: 20,),
                     rowButtonWithContent("获奖情况",Global.studentInfo.data.awards,onTap: (){}),
                     SizedBox(height: 100,),
 

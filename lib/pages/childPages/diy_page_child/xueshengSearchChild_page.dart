@@ -79,17 +79,17 @@ class _XueshengChildPageState extends State<XueshengChildPage> {
 
             SliverList(
               delegate: SliverChildListDelegate(<Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.max,
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  runSpacing: fontSizeMini35,
                   children: <Widget>[
-                    SizedBox(height: 20,),
+                    Container(),
                     infoCardArea("基本信息",data: [
                       {"电话": Global.searchStudentInfo.data.phone, "邮箱": Global.searchStudentInfo.data.email},
                       {'身份证': Global.searchStudentInfo.data.idCard, "姓名拼音": Global.searchStudentInfo.data.pinyin},
                       {'毕业学校': Global.searchStudentInfo.data.graduatedSchool, "政治面貌": Global.searchStudentInfo.data.politicalStatus},
                       {"生源地": Global.searchStudentInfo.data.originLocation, '家庭住址': Global.searchStudentInfo.data.address},
                     ]),
-                    SizedBox(height: 20,),
                     infoCardArea("在校信息",data: [
                       {"班级": Global.searchStudentInfo.data.classes, "寝室": Global.searchStudentInfo.data.dormitory},
                       {"辅导员": Global.searchStudentInfo.data.counsellorName,"紧急联系人": Global.searchStudentInfo.data.emergencyContact},
@@ -100,15 +100,10 @@ class _XueshengChildPageState extends State<XueshengChildPage> {
                       {"辅导员": Global.searchStudentInfo.data.counsellorName,"紧急联系人": Global.searchStudentInfo.data.emergencyContact},
                       {'辅导员电话':Global.searchStudentInfo.data.counsellorPhone.toString(),"紧急联系人电话": Global.searchStudentInfo.data.emergencyPhone},
                     ]),
-                    SizedBox(height: 20,),
                     rowButtonWithoutContent("学生成绩",onTap: (){showToast(context, '施工中……');}),
-                    SizedBox(height: 20,),
                     rowButtonWithContent("心理等级", Global.searchStudentInfo.data.psychologicalLevel.toString()),
-                    SizedBox(height: 20,),
                     rowButtonWithContent("经济援助", Global.searchStudentInfo.data.aid.toString(),onTap: (){}),
-                    SizedBox(height: 20,),
                     rowButtonWithContent("获奖情况", Global.searchStudentInfo.data.awards.toString(),onTap: (){}),
-                    SizedBox(height: 20,),
                     rowRecButtonList("学生画像",children: [
                       recButton('体貌特征', 'images/timaotezheng.png', () {}),
                       recButton('性格特点', 'images/xinggetedian.png', () {}),
@@ -116,7 +111,6 @@ class _XueshengChildPageState extends State<XueshengChildPage> {
                       recButton('家庭经济', 'images/jiatingjingji.png', () {}),
                       recButton('成绩与奖励', 'images/chengjiyujiangli.png', () {}),
                     ]),
-                    SizedBox(height: 20,),
                     rowButtonWithContent("谈话记录", "无"),
                     SizedBox(height: 100,),
 

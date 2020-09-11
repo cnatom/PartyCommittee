@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:party_committee/DeviceData/device_data.dart';
 import 'package:party_committee/NetClass/global.dart';
 import 'package:party_committee/NetClass/qingjiaResult_info.dart';
 import 'package:party_committee/NetRequest/qingjiaResult_get.dart';
@@ -188,7 +189,10 @@ class _QingjiaStuPageState extends State<QingjiaStuPage>
                 }),
                 Container(),
                 Center(
-                  child: _loading==false?MyFlatButtonWithoutGradient('提交',onTap: ()=>subApply()):loadingAnimationIOS(),
+                  child: _loading==false?Padding(
+                    padding: EdgeInsets.fromLTRB(deviceWidth/3, 0, deviceWidth/3, 0),
+                    child: MyFlatButtonWithoutGradient('提交',onTap: ()=>subApply()),
+                  ):loadingAnimationIOS(),
                 )
               ],
             ),
@@ -231,7 +235,7 @@ class _QingjiaStuPageState extends State<QingjiaStuPage>
                       color: Colors.white,
                     ),
                     margin: EdgeInsets.fromLTRB(fontSizeMini35*1.5, fontSizeMini35, fontSizeMini35*1.5, fontSizeMini35*0.5),
-                    padding: EdgeInsets.all(fontSizeMini35),
+                    padding: EdgeInsets.all(fontSizeMini35*1.5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -297,22 +301,10 @@ class _QingjiaStuPageState extends State<QingjiaStuPage>
           children: <Widget>[
             _newLeaveStu(),
             Global.qingjiaResultInfo.data==null?Center(child: loadingAnimationIOS(),):Global.qingjiaResultInfo.data.isEmpty?
-            InkWell(
-              splashColor: Colors.transparent,
-              hoverColor: Colors.transparent,
-              onTap: ()async{
-                await qingjiaResultGet(token: Global.token);
-                setState(() {
-
-                });
-              },
-              child: Container(
-                alignment: Alignment.center,
-                height: double.infinity,
-                width: double.infinity,
-                child: Text("无请假记录",style: TextStyle(fontSize: fontSizeNormal40,color: Colors.black38),),
-              ),
-            ): _leaveDialog()
+            MyFullScreenButton('无请假记录',onTap: ()async{
+              await qingjiaResultGet(token: Global.token);
+              setState(() {});
+            }): _leaveDialog()
           ],
         ));
   }

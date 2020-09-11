@@ -36,8 +36,9 @@ PreferredSizeWidget MyMainAppBar(String title, {List<Widget> action}) => Preferr
 
 //白色背景AppBar
 Widget MyAppBarWhite(BuildContext context, String title,
-        {PreferredSizeWidget bottom}) =>
+        {PreferredSizeWidget bottom,List<Widget> actions}) =>
     AppBar(
+      actions: actions,
       centerTitle: true,
       bottom: bottom,
       elevation: 0,
@@ -283,18 +284,24 @@ Widget MyFlatButton(String title, {GestureTapCallback onTap}) => Material(
         ),
       ),
     );
-Widget MyFlatButtonWithoutGradient(String title,{GestureTapCallback onTap,Color color = Colors.blueAccent})=>Container(
+Widget MyFlatButtonWithoutGradient(String title,{double borderRadius = 30,GestureTapCallback onTap,Color color = Colors.blueAccent})=>Container(
   child: Material(
-    borderRadius: BorderRadius.circular(20),
+    borderRadius: BorderRadius.circular(borderRadius),
     color: color,
-    child:InkWell(
-      borderRadius: BorderRadius.circular(20),
+    child: InkWell(
       onTap: onTap,
       child: Container(
-        height: fontSizeMini35*3,
-        width: deviceWidth/3,
+        height: ScreenUtil().setWidth(100),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+        ),
         alignment: Alignment.center,
-        child: Text(title,style: TextStyle(fontSize: fontSizeMini35,color: Colors.white,letterSpacing: 2,fontWeight: FontWeight.bold)),
+        child: Text(title,
+            style: TextStyle(
+                fontSize: fontSizeNormal40,
+                color: Colors.white,
+                letterSpacing: 2,
+                fontWeight: FontWeight.bold)),
       ),
     ),
   ),
@@ -303,6 +310,17 @@ Widget MyFlatButtonWithoutGradient(String title,{GestureTapCallback onTap,Color 
 //  TextStyle _itemTitleStyle =
 //      TextStyle(fontSize: fontSizeNormal40, color: Color.fromARGB(255, 139, 143, 155));
 //  TextStyle _itemContentStyle = TextStyle(fontSize: fontSizeNormal40);
+Widget MyFullScreenButton(String title,{GestureTapCallback onTap})=>InkWell(
+  splashColor: Colors.transparent,
+  hoverColor: Colors.transparent,
+  onTap: onTap,
+  child: Container(
+    alignment: Alignment.center,
+    height: double.infinity,
+    width: double.infinity,
+    child: Text(title,textAlign: TextAlign.center,style: TextStyle(fontSize: fontSizeNormal40,color: Colors.black38),),
+  ),
+);
 Widget MyRowFlexButtonWithContent(String title, String content,
     {GestureTapCallback onTap}) {
   return Material(

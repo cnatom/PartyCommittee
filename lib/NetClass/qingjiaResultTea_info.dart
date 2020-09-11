@@ -1,28 +1,4 @@
 class QingjiaResultTeaInfo {
-  int code;
-  String message;
-  Data data;
-
-  QingjiaResultTeaInfo({this.code, this.message, this.data});
-
-  QingjiaResultTeaInfo.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
-    message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
   List<Records> records;
   String total;
   String size;
@@ -32,7 +8,7 @@ class Data {
   bool searchCount;
   String pages;
 
-  Data(
+  QingjiaResultTeaInfo(
       {this.records,
         this.total,
         this.size,
@@ -42,7 +18,7 @@ class Data {
         this.searchCount,
         this.pages});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  QingjiaResultTeaInfo.fromJson(Map<String, dynamic> json) {
     if (json['records'] != null) {
       records = new List<Records>();
       json['records'].forEach((v) {

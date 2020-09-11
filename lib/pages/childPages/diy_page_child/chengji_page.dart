@@ -29,7 +29,7 @@ class _ChengjiPageState extends State<ChengjiPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _loading = false;
   List _crossFadeState =
-      new List.filled(50, CrossFadeState.showFirst); //控制详细列表的展开闭合
+      new List.filled(10, CrossFadeState.showFirst); //控制详细列表的展开闭合
   String _xuenian;
   String _xueqi;
   List<String> _xuenianData;
