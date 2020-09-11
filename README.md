@@ -1,16 +1,30 @@
-# party_committee
+Version 0.0.20
 
-A new Flutter application.
 
-## Getting Started
+【更新内容】（29.0 MB）
 
-This project is a starting point for a Flutter application.
+1.现在可以手动忽略自动更新。
 
-A few resources to get you started if this is your first Flutter project:
+1.优化了主页矩形按钮的部分细节。
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+2.微调了部分页面字体的大小。
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+3.优化了新闻页内容，排版变得更加紧凑。
+
+
+2020.8.23
+
+——————————————————————————————————
+
+Version 0.0.21
+
+
+【更新内容】（29.0 MB）
+
+1.修改了"入校申请"的日期格式。
+
+
+2020.8.23
+
+——————————————————————————————————
+
